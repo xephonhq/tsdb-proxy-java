@@ -1,0 +1,3 @@
+apply plugin: 'application'
+
+mainClassName = "io.xephon.proxy.server.Server"
