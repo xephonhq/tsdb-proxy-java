@@ -2,9 +2,36 @@
 
 NOTE: it is ported from the [Golang version](https://github.com/xephonhq/tsdb-ql/blob/master/doc/spec-draft/query_language.md)
 
-The new idea is to combine R and SQL
+The new idea is to combine R and SQL, because R can be used to generate time series data and draw graph
 
 ## Ref
+
+- [Translating between monitoring languages](https://www.robustperception.io/translating-between-monitoring-languages/)
+- Netflix Atlas https://github.com/Netflix/atlas/wiki/Stack%20Language
+- KaiorsDB https://github.com/kairosdb/kairosdb/wiki/Kairos-Timeseries-Query-Language-(TQL)
+- SparkQL
+  - Grammar file https://github.com/apache/spark/blob/master/sql/catalyst/src/main/antlr4/org/apache/spark/sql/catalyst/parser/SqlBase.g4
+  - SparkQL https://databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html
+  - Data frame https://databricks.com/blog/2015/02/17/introducing-dataframes-in-spark-for-large-scale-data-science.html
+- Prometheus
+  - PromQL is Turing Complete https://www.robustperception.io/conways-life-in-prometheus/
+  - https://prometheus.io/docs/querying/api/
+    - curl 'http://localhost:9090/api/v1/query_range?query=up&start=2015-07-01T20:10:30.781Z&end=2015-07-01T20:11:00.781Z&step=15s'
+    - expression
+    - start
+    - end
+    - step (Query resolution step width)
+  - expression
+    - `http_requests_total{environment=~"staging|testing|development",method!="GET"}`
+      - =, !=, =~, !~ (regexp)
+      - `{job=~".*"} # Bad!` this matches empty string
+    - Range Vector Selectors
+      - [ ] TODO: difference between offset with start, end in http API
+      - https://github.com/prometheus/prometheus/issues/529
+  - [ ] operator https://prometheus.io/docs/querying/operators/
+  - [ ] functions https://prometheus.io/docs/querying/functions/
+- A modern subset of the range query language https://github.com/square/grange
+- Graphite http://graphite.readthedocs.io/en/latest/functions.html#usage
 
 ### R
 
