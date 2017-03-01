@@ -2,7 +2,11 @@
 
 NOTE: it is ported from the [Golang version](https://github.com/xephonhq/tsdb-ql/blob/master/doc/spec-draft/query_language.md)
 
-The new idea is to combine R and SQL, because R can be used to generate time series data and draw graph
+## Change log
+
+From newest to oldest
+
+- The new idea is to combine R and SQL, because R can be used to generate time series data and draw graph
 
 ## Ref
 
@@ -11,6 +15,9 @@ The new idea is to combine R and SQL, because R can be used to generate time ser
 - KaiorsDB https://github.com/kairosdb/kairosdb/wiki/Kairos-Timeseries-Query-Language-(TQL)
 - SparkQL
   - Grammar file https://github.com/apache/spark/blob/master/sql/catalyst/src/main/antlr4/org/apache/spark/sql/catalyst/parser/SqlBase.g4
+  - AST Builder https://github.com/apache/spark/blob/master/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/parser/AstBuilder.scala
+  - Optimizer https://github.com/apache/spark/blob/master/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/optimizer/Optimizer.scala
+  - Optimize rules https://github.com/apache/spark/blob/master/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/optimizer/expressions.scala
   - SparkQL https://databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html
   - Data frame https://databricks.com/blog/2015/02/17/introducing-dataframes-in-spark-for-large-scale-data-science.html
 - Prometheus
@@ -33,10 +40,15 @@ The new idea is to combine R and SQL, because R can be used to generate time ser
 - A modern subset of the range query language https://github.com/square/grange
 - Graphite http://graphite.readthedocs.io/en/latest/functions.html#usage
 
+### Python
+
+- http://www.pyflux.com/ provides several models
+
 ### R
 
 R for time series
 
+- https://cran.r-project.org/web/views/TimeSeries.html
 - http://www.statmethods.net/advstats/timeseries.html
 - http://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/index.html
 
