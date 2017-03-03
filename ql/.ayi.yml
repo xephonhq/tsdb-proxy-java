@@ -1,0 +1,3 @@
+scripts:
+  grun:
+    java -cp ./build/libs/ql-0.0.1-SNAPSHOT.jar:./third_party/antlr-4.6-complete.jar org.antlr.v4.gui.TestRig io.xephon.proxy.ql.parser.Reika prog -gui

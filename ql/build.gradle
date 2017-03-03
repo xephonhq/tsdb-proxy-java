@@ -7,13 +7,10 @@ dependencies {
 // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
 // http://stackoverflow.com/questions/27091805/executing-commands-with-gradle
 task parser(type: Exec) {
-//    doFirst(type:Exec) {
     println "Run antlr4 to generate parser"
-//    println "$projectDir"
     workingDir './src/main/java/io/xephon/proxy/ql/parser'
-    commandLine 'java', '-cp', "$projectDir/third_party/antlr-4.6-complete.jar", '-Xmx500M', 'org.antlr.v4.Tool',
-            '-visitor', '-package', 'io.xephon.proxy.ql.parser', 'Reika.g4'
-//    }
+    commandLine 'java', '-cp', "$projectDir/third_party/antlr-4.6-complete.jar", '-Xmx500M',
+            'org.antlr.v4.Tool', '-visitor', '-package', 'io.xephon.proxy.ql.parser', 'Reika.g4'
 }
 
 // TODO: use grun with GUI to test if syntax is working
@@ -24,13 +21,18 @@ task parser(type: Exec) {
 // java -cp .:./third_party/antlr-4.6-complete.jar:./build/classes/main/io/xephon/prjava -cp .:./third_party/antlr-4.6-complete.jar:./build/classes/main/io/xephon/proxy/ql/parser org.antlr.v4.gui.TestRig io.xephon.proxy.ql.parser.Roxy/ql/parser org.antlr.v4.gui.TestRig io.xephon.proxy.ql.parser.Rekia prog -gui
 // java -cp ./ql-0.0.1-SNAPSHOT.jar io.xephon.proxy.ql.parser.Dummy
 // java -cp ./build/libs/ql-0.0.1-SNAPSHOT.jar:./third_party/antlr-4.6-complete.jar org.antlr.v4.gui.TestRig io.xephon.proxy.ql.parser.Reika prog -gui
-task grun(type: Exec) {
+// TODO: depends on parser and compile java
+task grun(type: Exec, dependsOn: 'compileJava') {
     println "Use grun for test grammar"
 //    ````bash
 //    antlr4 Expr.g4
 //    javac *.java
 //    grun Expr prog -gui t.expr
 //    ````
-    workingDir './src/main/java/io/xephon/proxy/ql/parser'
-    commandLine 'javac', '*.java'
+//    workingDir './src/main/java/io/xephon/proxy/ql/parser'
+    // NOTE: sadly, gradle tasks seems does not allow use input, but Ayi works -________-
+    commandLine 'java', '-cp', './build/libs/ql-0.0.1-SNAPSHOT.jar:./third_party/antlr-4.6-complete.jar',
+        'org.antlr.v4.gui.TestRig', 'io.xephon.proxy.ql.parser.Reika', 'prog', '-gui'
+//    println "let's run grun"
+//    commandLine "ls"
 }
