@@ -2,6 +2,43 @@
 
 NOTE: it is ported from the [Golang version](https://github.com/xephonhq/tsdb-ql/blob/master/doc/spec-draft/query_language.md)
 
+## 0.0.1
+
+````
+// single line comment
+/* multi line comment */
+// TODO: how to allow expression cross multiple lines
+
+// built in time function, they can be run in shell directly, which is handy
+// the underlying storage is all nanoseconds, don't support time zone
+today()
+tomorrow()
+today() + 1d // arith operations for date
+today() + 1s // excited
+
+// built in arith operation
+// TODO: support for brackets and other predence
+1 + 1
+1 * 2
+
+// variable, need to explictly say type
+var x:date = today()
+x + 1d
+
+// the best way to debug
+print(x)
+die("give me a reason") // PHP is the best language
+
+// SQL operations
+// NOTE: there is no FROM
+// TODO: handle moving average, how to group different series
+select "cpu.load" where "region" == "en-us" and start = yesterday() group by "instance"
+select "cpu.load" where "region" == "en-us" and "os" == "windows" and val > 20 group by "instance"
+// translated to different database API calls and extra operations
+
+// some is handled by database, some is handled by proxy
+// TODO: the graph operation
+````
 ## Change log
 
 From newest to oldest

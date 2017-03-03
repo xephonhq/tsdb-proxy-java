@@ -1,3 +1,36 @@
 dependencies {
     compile project(':common')
+    compile group: 'org.antlr', name: 'antlr4', version: '4.6'
+}
+
+// Generate ANTLR Parser
+// https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
+// http://stackoverflow.com/questions/27091805/executing-commands-with-gradle
+task parser(type: Exec) {
+//    doFirst(type:Exec) {
+    println "Run antlr4 to generate parser"
+//    println "$projectDir"
+    workingDir './src/main/java/io/xephon/proxy/ql/parser'
+    commandLine 'java', '-cp', "$projectDir/third_party/antlr-4.6-complete.jar", '-Xmx500M', 'org.antlr.v4.Tool',
+            '-visitor', '-package', 'io.xephon.proxy.ql.parser', 'Reika.g4'
+//    }
+}
+
+// TODO: use grun with GUI to test if syntax is working
+// alias grun='java org.antlr.v4.gui.TestRig'
+// https://github.com/antlr/antlr4/blob/master/tool/src/org/antlr/v4/gui/TestRig.java
+// need to specify the full class name
+// also need gradle build
+// java -cp .:./third_party/antlr-4.6-complete.jar:./build/classes/main/io/xephon/prjava -cp .:./third_party/antlr-4.6-complete.jar:./build/classes/main/io/xephon/proxy/ql/parser org.antlr.v4.gui.TestRig io.xephon.proxy.ql.parser.Roxy/ql/parser org.antlr.v4.gui.TestRig io.xephon.proxy.ql.parser.Rekia prog -gui
+// java -cp ./ql-0.0.1-SNAPSHOT.jar io.xephon.proxy.ql.parser.Dummy
+// java -cp ./build/libs/ql-0.0.1-SNAPSHOT.jar:./third_party/antlr-4.6-complete.jar org.antlr.v4.gui.TestRig io.xephon.proxy.ql.parser.Reika prog -gui
+task grun(type: Exec) {
+    println "Use grun for test grammar"
+//    ````bash
+//    antlr4 Expr.g4
+//    javac *.java
+//    grun Expr prog -gui t.expr
+//    ````
+    workingDir './src/main/java/io/xephon/proxy/ql/parser'
+    commandLine 'javac', '*.java'
 }
