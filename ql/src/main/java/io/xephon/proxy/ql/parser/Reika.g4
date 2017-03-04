@@ -6,6 +6,8 @@
 // - gradle
 grammar Reika;
 
+// TODO: maybe allow single expression stat+|expr
+// TODO: add tokens for date or date time
 prog : stat+;
 
 type : 'int' | 'bool' | 'string' | 'date';
