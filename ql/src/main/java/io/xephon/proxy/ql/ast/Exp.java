@@ -5,5 +5,5 @@ package io.xephon.proxy.ql.ast;
  * <p>
  * Base class for Expression
  */
-public abstract class Exp {
+public abstract class Exp extends Node{
 }

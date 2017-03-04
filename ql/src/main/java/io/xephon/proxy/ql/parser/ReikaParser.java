@@ -20,10 +20,10 @@ public class ReikaParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		ID=10, INT=11, STRING=12, ADD=13, MINUS=14, WS=15, SL_COMMENT=16;
 	public static final int
-		RULE_prog = 0, RULE_type = 1, RULE_varDecl = 2, RULE_varAssign = 3, RULE_stat = 4, 
-		RULE_expr = 5, RULE_exprList = 6;
+		RULE_prog = 0, RULE_type = 1, RULE_varDeclare = 2, RULE_varAssign = 3, 
+		RULE_stat = 4, RULE_expr = 5, RULE_exprList = 6;
 	public static final String[] ruleNames = {
-		"prog", "type", "varDecl", "varAssign", "stat", "expr", "exprList"
+		"prog", "type", "varDeclare", "varAssign", "stat", "expr", "exprList"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -193,7 +193,7 @@ public class ReikaParser extends Parser {
 		return _localctx;
 	}
 
-	public static class VarDeclContext extends ParserRuleContext {
+	public static class VarDeclareContext extends ParserRuleContext {
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
 		}
@@ -201,28 +201,28 @@ public class ReikaParser extends Parser {
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public VarDeclContext(ParserRuleContext parent, int invokingState) {
+		public VarDeclareContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_varDecl; }
+		@Override public int getRuleIndex() { return RULE_varDeclare; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterVarDecl(this);
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterVarDeclare(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitVarDecl(this);
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitVarDeclare(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitVarDecl(this);
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitVarDeclare(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final VarDeclContext varDecl() throws RecognitionException {
-		VarDeclContext _localctx = new VarDeclContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_varDecl);
+	public final VarDeclareContext varDeclare() throws RecognitionException {
+		VarDeclareContext _localctx = new VarDeclareContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_varDeclare);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -301,30 +301,70 @@ public class ReikaParser extends Parser {
 	}
 
 	public static class StatContext extends ParserRuleContext {
-		public VarDeclContext varDecl() {
-			return getRuleContext(VarDeclContext.class,0);
-		}
-		public VarAssignContext varAssign() {
-			return getRuleContext(VarAssignContext.class,0);
-		}
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
 		public StatContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stat; }
+	 
+		public StatContext() { }
+		public void copyFrom(StatContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class ExprStatContext extends StatContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public ExprStatContext(StatContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterStat(this);
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterExprStat(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitStat(this);
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitExprStat(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitStat(this);
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitExprStat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VarAssignStatContext extends StatContext {
+		public VarAssignContext varAssign() {
+			return getRuleContext(VarAssignContext.class,0);
+		}
+		public VarAssignStatContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterVarAssignStat(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitVarAssignStat(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitVarAssignStat(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VarDeclareStatContext extends StatContext {
+		public VarDeclareContext varDeclare() {
+			return getRuleContext(VarDeclareContext.class,0);
+		}
+		public VarDeclareStatContext(StatContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterVarDeclareStat(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitVarDeclareStat(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitVarDeclareStat(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -337,13 +377,15 @@ public class ReikaParser extends Parser {
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
+				_localctx = new VarDeclareStatContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(32);
-				varDecl();
+				varDeclare();
 				}
 				break;
 			case 2:
+				_localctx = new VarAssignStatContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(33);
@@ -351,6 +393,7 @@ public class ReikaParser extends Parser {
 				}
 				break;
 			case 3:
+				_localctx = new ExprStatContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
 				setState(34);
@@ -373,12 +416,17 @@ public class ReikaParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public TerminalNode ID() { return getToken(ReikaParser.ID, 0); }
-		public ExprListContext exprList() {
-			return getRuleContext(ExprListContext.class,0);
+		public ExprContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		public TerminalNode INT() { return getToken(ReikaParser.INT, 0); }
-		public TerminalNode STRING() { return getToken(ReikaParser.STRING, 0); }
+		@Override public int getRuleIndex() { return RULE_expr; }
+	 
+		public ExprContext() { }
+		public void copyFrom(ExprContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class AddContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
@@ -386,22 +434,112 @@ public class ReikaParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public TerminalNode ADD() { return getToken(ReikaParser.ADD, 0); }
-		public TerminalNode MINUS() { return getToken(ReikaParser.MINUS, 0); }
-		public ExprContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_expr; }
+		public AddContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterExpr(this);
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterAdd(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitExpr(this);
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitAdd(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitExpr(this);
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitAdd(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class CallContext extends ExprContext {
+		public TerminalNode ID() { return getToken(ReikaParser.ID, 0); }
+		public ExprListContext exprList() {
+			return getRuleContext(ExprListContext.class,0);
+		}
+		public CallContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterCall(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitCall(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitCall(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class VariableContext extends ExprContext {
+		public TerminalNode ID() { return getToken(ReikaParser.ID, 0); }
+		public VariableContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterVariable(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitVariable(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitVariable(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class StringContext extends ExprContext {
+		public TerminalNode STRING() { return getToken(ReikaParser.STRING, 0); }
+		public StringContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterString(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitString(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitString(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IntContext extends ExprContext {
+		public TerminalNode INT() { return getToken(ReikaParser.INT, 0); }
+		public IntContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterInt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitInt(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitInt(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MinusContext extends ExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode MINUS() { return getToken(ReikaParser.MINUS, 0); }
+		public MinusContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterMinus(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitMinus(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitMinus(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -427,6 +565,10 @@ public class ReikaParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				{
+				_localctx = new CallContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+
 				setState(40);
 				match(ID);
 				setState(41);
@@ -447,18 +589,27 @@ public class ReikaParser extends Parser {
 				break;
 			case 2:
 				{
+				_localctx = new VariableContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(46);
 				match(ID);
 				}
 				break;
 			case 3:
 				{
+				_localctx = new IntContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(47);
 				match(INT);
 				}
 				break;
 			case 4:
 				{
+				_localctx = new StringContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
 				setState(48);
 				match(STRING);
 				}
@@ -478,7 +629,7 @@ public class ReikaParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ExprContext(_parentctx, _parentState);
+						_localctx = new AddContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(51);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
@@ -490,7 +641,7 @@ public class ReikaParser extends Parser {
 						break;
 					case 2:
 						{
-						_localctx = new ExprContext(_parentctx, _parentState);
+						_localctx = new MinusContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(54);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");

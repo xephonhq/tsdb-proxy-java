@@ -1,3 +1,7 @@
 apply plugin: 'application'
 
 mainClassName = "io.xephon.proxy.server.Server"
+
+dependencies {
+    compile project(':ql')
+}

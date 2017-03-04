@@ -28,15 +28,15 @@ public interface ReikaListener extends ParseTreeListener {
 	 */
 	void exitType(ReikaParser.TypeContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ReikaParser#varDecl}.
+	 * Enter a parse tree produced by {@link ReikaParser#varDeclare}.
 	 * @param ctx the parse tree
 	 */
-	void enterVarDecl(ReikaParser.VarDeclContext ctx);
+	void enterVarDeclare(ReikaParser.VarDeclareContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ReikaParser#varDecl}.
+	 * Exit a parse tree produced by {@link ReikaParser#varDeclare}.
 	 * @param ctx the parse tree
 	 */
-	void exitVarDecl(ReikaParser.VarDeclContext ctx);
+	void exitVarDeclare(ReikaParser.VarDeclareContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ReikaParser#varAssign}.
 	 * @param ctx the parse tree
@@ -48,25 +48,113 @@ public interface ReikaListener extends ParseTreeListener {
 	 */
 	void exitVarAssign(ReikaParser.VarAssignContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ReikaParser#stat}.
+	 * Enter a parse tree produced by the {@code VarDeclareStat}
+	 * labeled alternative in {@link ReikaParser#stat}.
 	 * @param ctx the parse tree
 	 */
-	void enterStat(ReikaParser.StatContext ctx);
+	void enterVarDeclareStat(ReikaParser.VarDeclareStatContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ReikaParser#stat}.
+	 * Exit a parse tree produced by the {@code VarDeclareStat}
+	 * labeled alternative in {@link ReikaParser#stat}.
 	 * @param ctx the parse tree
 	 */
-	void exitStat(ReikaParser.StatContext ctx);
+	void exitVarDeclareStat(ReikaParser.VarDeclareStatContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ReikaParser#expr}.
+	 * Enter a parse tree produced by the {@code VarAssignStat}
+	 * labeled alternative in {@link ReikaParser#stat}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpr(ReikaParser.ExprContext ctx);
+	void enterVarAssignStat(ReikaParser.VarAssignStatContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ReikaParser#expr}.
+	 * Exit a parse tree produced by the {@code VarAssignStat}
+	 * labeled alternative in {@link ReikaParser#stat}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpr(ReikaParser.ExprContext ctx);
+	void exitVarAssignStat(ReikaParser.VarAssignStatContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code ExprStat}
+	 * labeled alternative in {@link ReikaParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprStat(ReikaParser.ExprStatContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExprStat}
+	 * labeled alternative in {@link ReikaParser#stat}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprStat(ReikaParser.ExprStatContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdd(ReikaParser.AddContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdd(ReikaParser.AddContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Call}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterCall(ReikaParser.CallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Call}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitCall(ReikaParser.CallContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable(ReikaParser.VariableContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable(ReikaParser.VariableContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code String}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterString(ReikaParser.StringContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code String}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitString(ReikaParser.StringContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Int}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterInt(ReikaParser.IntContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Int}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitInt(ReikaParser.IntContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Minus}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMinus(ReikaParser.MinusContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Minus}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMinus(ReikaParser.MinusContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ReikaParser#exprList}.
 	 * @param ctx the parse tree

@@ -23,11 +23,11 @@ public interface ReikaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitType(ReikaParser.TypeContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ReikaParser#varDecl}.
+	 * Visit a parse tree produced by {@link ReikaParser#varDeclare}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVarDecl(ReikaParser.VarDeclContext ctx);
+	T visitVarDeclare(ReikaParser.VarDeclareContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ReikaParser#varAssign}.
 	 * @param ctx the parse tree
@@ -35,17 +35,68 @@ public interface ReikaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarAssign(ReikaParser.VarAssignContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ReikaParser#stat}.
+	 * Visit a parse tree produced by the {@code VarDeclareStat}
+	 * labeled alternative in {@link ReikaParser#stat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStat(ReikaParser.StatContext ctx);
+	T visitVarDeclareStat(ReikaParser.VarDeclareStatContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ReikaParser#expr}.
+	 * Visit a parse tree produced by the {@code VarAssignStat}
+	 * labeled alternative in {@link ReikaParser#stat}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpr(ReikaParser.ExprContext ctx);
+	T visitVarAssignStat(ReikaParser.VarAssignStatContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ExprStat}
+	 * labeled alternative in {@link ReikaParser#stat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprStat(ReikaParser.ExprStatContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdd(ReikaParser.AddContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Call}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCall(ReikaParser.CallContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Variable}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable(ReikaParser.VariableContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code String}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(ReikaParser.StringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Int}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInt(ReikaParser.IntContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Minus}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMinus(ReikaParser.MinusContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ReikaParser#exprList}.
 	 * @param ctx the parse tree

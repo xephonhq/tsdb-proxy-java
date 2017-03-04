@@ -1,33 +1,37 @@
 // Reika is from Reika Mishima
 // The grammar file is based on ANTLR Guide Chapter 6 Cymbol
+//
 // Usage
 // - see build.gradle for detail
-// - gradle parser
-// - gradle
+// - gradle genParser
+// - Ayi run grun
+// TODO:
+// - support date
+// - entry of program
 grammar Reika;
 
-// TODO: maybe allow single expression stat+|expr
-// TODO: add tokens for date or date time
-prog : stat+;
+//prog : stat+ | expr;
+prog : stat+ ;
 
 type : 'int' | 'bool' | 'string' | 'date';
-varDecl : type ID '=' expr ';';
+varDeclare : type ID '=' expr ';';
 varAssign : ID '=' expr ';';
-stat : varDecl
-     | varAssign
-     | expr ';'
+stat : varDeclare # VarDeclareStat
+     | varAssign # VarAssignStat
+     | expr ';' # ExprStat
      ;
-expr : ID '(' exprList? ')' // function
-     | ID // variable
-     | expr ADD expr
-     | expr MINUS expr
-     | INT
-     | STRING
+expr : ID '(' exprList? ')' # Call
+     | ID # Variable
+     | expr ADD expr # Add
+     | expr MINUS expr # Minus
+     | INT # Int
+     | STRING # String
      ;
 
 exprList : expr (',' expr)* ;   // arg list
 
 // tokens
+// TODO: add tokens for date or date time
 ID  :   LETTER (LETTER | [0-9])* ;
 fragment
 LETTER : [a-zA-Z] ;

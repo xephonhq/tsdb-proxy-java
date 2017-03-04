@@ -5,5 +5,5 @@ package io.xephon.proxy.ql.ast;
  *
  * Variable assign statement
  */
-public class VariableAssignStat extends Stat {
+public class VarAssignStat extends Stat {
 }

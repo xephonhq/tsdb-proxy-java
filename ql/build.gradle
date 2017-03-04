@@ -6,8 +6,7 @@ dependencies {
 // Generate ANTLR Parser
 // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
 // http://stackoverflow.com/questions/27091805/executing-commands-with-gradle
-// TODO: may need to let compileJava depends on genParser, though actually this is only the case when
-// g4 file is modified
+// TODO: may need to let compileJava depends on genParser, though actually this is only the case when g4 file is modified
 task genParser(type: Exec) {
     println "Run antlr4 to generate parser"
     workingDir './src/main/java/io/xephon/proxy/ql/parser'
