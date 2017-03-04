@@ -1,6 +1,8 @@
 // a skeleton to check if the following generated code works
 // - parse tree
 // - base visitor
-int a = 1;
+int a = 1; // var declaration
+// FIXME: a = -3 is not supported
+a = 3; // var assign
 int b = abs(a); // let's assume there is a built in function called abs
 print("mie"); // call function

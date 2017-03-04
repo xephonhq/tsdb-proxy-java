@@ -15,4 +15,10 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         System.out.println("visit program!");
         return visitChildren(ctx);
     }
+
+    @Override
+    public Node visitVarDeclareStat(ReikaParser.VarDeclareStatContext ctx) {
+        System.out.println("visit var declare statement");
+        return visitChildren(ctx);
+    }
 }

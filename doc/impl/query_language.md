@@ -4,6 +4,8 @@
 
 Integer
 
+- [ ] support negative number
+
 Boolean
 
 - [ ] maybe just use 0 and 1 for bool?
