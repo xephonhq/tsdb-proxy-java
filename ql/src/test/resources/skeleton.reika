@@ -1,0 +1,6 @@
+// a skeleton to check if the following generated code works
+// - parse tree
+// - base visitor
+int a = 1;
+int b = abs(a); // let's assume there is a built in function called abs
+print("mie"); // call function
