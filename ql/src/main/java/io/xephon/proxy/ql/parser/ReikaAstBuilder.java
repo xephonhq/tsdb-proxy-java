@@ -1,6 +1,10 @@
 package io.xephon.proxy.ql.parser;
 
 import io.xephon.proxy.ql.ast.Node;
+import io.xephon.proxy.ql.ast.Stat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by at15 on 3/3/17.
@@ -10,10 +14,20 @@ import io.xephon.proxy.ql.ast.Node;
  * @TODO: should use Node instead of Void, but Prog has can have a list of statement
  */
 public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
+    private List<Stat> statements;
+
     @Override
     public Node visitProg(ReikaParser.ProgContext ctx) {
+        statements = new ArrayList<>();
         System.out.println("visit program!");
-        return visitChildren(ctx);
+        // visit every statement, prog is the root
+        List<ReikaParser.StatContext> statContexts = ctx.stat();
+        for (ReikaParser.StatContext stat : statContexts) {
+            statements.add((Stat) visit(stat));
+        }
+        System.out.println("total statements: " + statements.size());
+        // TODO: maybe we should use optional or StatOrNode, things like that
+        return null;
     }
 
     @Override

@@ -5,7 +5,7 @@ package io.xephon.proxy.ql.ast;
  * <p>
  * Base class for Statement
  *
- * @TODO should statement and expression inherit for same class
+ * @TODO should statement and expression inherit for same class?
  */
 public abstract class Stat extends Node{
 }
