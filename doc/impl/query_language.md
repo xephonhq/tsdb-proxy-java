@@ -37,6 +37,24 @@ CheckSymbols.error(ctx.ID().getSymbol(), "no such function: "+funcName);
 ````
 ## Ref 
 
-- Building Abstract Syntax Trees in Java https://lambda.uta.edu/cse5317/notes/node24.html
+Courses 
+
+- Use Java http://courses.cs.washington.edu/courses/csep501/09au/lectures/slides.html
+- Also use Java? http://www.cs.cornell.edu/courses/cs4120/2016sp/
+- Not so much code https://web.stanford.edu/class/cs143/
+
+
+- Building Abstract Syntax Trees in Java 
+  - https://lambda.uta.edu/cse5317/notes/node24.html
 - Symbol Tables https://lambda.uta.edu/cse5317/notes/node29.html
   - [ ] Note that a symbol table is a compile-time data structure. It's not used during run time by statically typed languages
+  - [ ] Add fake entry in symbol table to recovery from error
+    - P42 http://courses.cs.washington.edu/courses/csep501/09au/lectures/slides/I-semantics_ink.pdf
+- Type and Type Checking 
+  - [ ] https://lambda.uta.edu/cse5317/notes/node30.html
+  - [ ] http://www.cs.cornell.edu/courses/cs4120/2013fa/schedule.html
+    - Add method type check in each AST http://www.cs.cornell.edu/courses/cs4120/2013fa/lectures/lec08-fa13.pdf
+  - [ ] Also have type check using visitor pattern http://courses.cs.washington.edu/courses/csep501/09au/lectures/slides/H-ASTs_ink.pdf
+  - [ ] Use No_Type for error recovery https://web.stanford.edu/class/cs143/lectures/lecture10.pdf
+- Visitor pattern
+  - http://courses.cs.washington.edu/courses/csep501/09au/lectures/slides/H-ASTs_ink.pdf

@@ -1,7 +1,6 @@
 package io.xephon.proxy.ql.parser;
 
-import io.xephon.proxy.ql.ast.Node;
-import io.xephon.proxy.ql.ast.Stat;
+import io.xephon.proxy.ql.ast.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +52,33 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         System.out.println("visit expr statement");
         System.out.println(ctx.expr().getText());
         return visitChildren(ctx);
+    }
+
+    // start of expressions
+    @Override
+    public Node visitInt(ReikaParser.IntContext ctx) {
+        return new IntegerExp(Integer.parseInt(ctx.INT().getText()));
+    }
+
+    @Override
+    public Node visitString(ReikaParser.StringContext ctx) {
+        // TODO: will this include the quote mark?
+        System.out.println("have quote mark? " + ctx.STRING().getText());
+        String s = ctx.STRING().getText();
+        System.out.println("trim quote mark? " + s.substring(1, s.length() - 1));
+        return new StringExp(ctx.STRING().getText());
+    }
+
+    @Override
+    public Node visitVariable(ReikaParser.VariableContext ctx) {
+        // FIXME: visitVariable can't know its data type
+        // for var declare stmt, it can know it
+        // for var assign stmt, need to lookup symbol table
+        // another way to do it is
+        //    - fill the symbol table when encounter declare statement
+        //    - look up symbol table if not found assign it to NO_TYPE, and this should be an error
+        // TODO: may need to aggregate the error instead of simply stdout
+        return new VariableExp(ctx.getText());
     }
 
     @Override
