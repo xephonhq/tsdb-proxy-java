@@ -1,10 +1,11 @@
 package io.xephon.proxy.ql.checker;
 
-import com.google.common.collect.Table;
 import io.xephon.proxy.ql.ReikaException;
 import io.xephon.proxy.ql.ast.DataType;
+import org.antlr.v4.runtime.Token;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by at15 on 3/4/17.
@@ -21,35 +22,32 @@ import java.util.HashMap;
  * - just need one phase because no forward reference
  */
 public class SymbolTable {
-    // TODO: might use guava's table
-    private HashMap<String, DataType> table;
-//    private Table<String, >
+    private Map<String, Symbol> table;
 
-    // TODO: may have a class called symbol exception?
-    public DataType lookup(String id) throws ReikaException{
-        // TODO: is using NO_TYPE a good idea?
-        // Maybe throw exception and catch it in visitor is a better idea
-        // FIXME: you can't throw exception in visitor
-        // TODO: using unchecked exception allow not modifying the method definition
-        // TODO: the exception need symbol information
+    public SymbolTable() {
+        table = new HashMap<>();
+    }
+
+    /**
+     * @param token
+     * @param type
+     * @throws DuplicateDeclarationException
+     * @TODO: need to have recovery, set the symbol to the latest type, i.e. addSafe
+     */
+    public void add(DataType type, String id, Token token) throws DuplicateDeclarationException {
+        Symbol symbol = new Symbol(id, token, type);
         if (!table.containsKey(id)) {
-            return DataType.NO_TYPE;
+            table.put(id, symbol);
+        }
+        throw new DuplicateDeclarationException(table.get(id), symbol);
+    }
+
+    public Symbol resolve(Token token) throws UndefinedIdentifierException {
+        String id = token.getText();
+        if (!table.containsKey(id)) {
+            throw new UndefinedIdentifierException(new Symbol(token));
         }
         return table.get(id);
     }
 
-    public void add(String id, DataType type) throws ReikaException {
-        // TODO: deal with declare twice
-        if (!table.containsKey(id)) {
-            table.put(id, type);
-        } else {
-            // TODO: throw exception
-        }
-//        int a = 1;
-//        double a = 2.0;
-//        int c = a + 1;
-//        int d = c + 1;
-//        e = 1;
-//        int g = e + 1;
-    }
 }

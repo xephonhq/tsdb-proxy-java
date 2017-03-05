@@ -38,6 +38,9 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         System.out.println(ctx.varDeclare().ID().getText());
         System.out.println(ctx.varDeclare().expr().getText());
         System.out.println("line:" + ctx.varDeclare().getStart().getLine());
+        ReikaParser.VarDeclareContext declareContext = ctx.varDeclare();
+        DataType type = DataType.type(declareContext.type());
+        symbolTable.add(declareContext.ID().get, type);
         return visitChildren(ctx);
     }
 

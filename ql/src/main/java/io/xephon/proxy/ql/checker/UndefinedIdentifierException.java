@@ -8,14 +8,10 @@ import io.xephon.proxy.ql.ReikaException;
  * @TODO distinguish variable and function
  */
 public class UndefinedIdentifierException extends ReikaException {
-    public String id;
-    public Integer line;
-    public Integer column;
+    public final Symbol symbol;
 
-    public UndefinedIdentifierException(String id, Integer line, Integer column) {
-        super(String.format("%s on %d,%d is undefined", id, line, column));
-        this.id = id;
-        this.line = line;
-        this.column = column;
+    public UndefinedIdentifierException(Symbol symbol) {
+        super(String.format("%s on %d,%d is undefined", symbol.id, symbol.line, symbol.column));
+        this.symbol = symbol;
     }
 }
