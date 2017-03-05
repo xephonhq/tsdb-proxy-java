@@ -1,6 +1,7 @@
 package io.xephon.proxy.ql.parser;
 
 import io.xephon.proxy.ql.ast.*;
+import io.xephon.proxy.ql.checker.SymbolTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @TODO: should use Node instead of Void, but Prog has can have a list of statement
  */
 public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
+    private SymbolTable symbolTable;
     private List<Stat> statements;
 
     @Override
@@ -66,6 +68,8 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         System.out.println("have quote mark? " + ctx.STRING().getText());
         String s = ctx.STRING().getText();
         System.out.println("trim quote mark? " + s.substring(1, s.length() - 1));
+        System.out.println(ctx.getStart().getCharPositionInLine());
+        System.out.println(ctx.getStart().getStartIndex()); // NOTE: this is not the column we want
         return new StringExp(ctx.STRING().getText());
     }
 
@@ -78,6 +82,8 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         //    - fill the symbol table when encounter declare statement
         //    - look up symbol table if not found assign it to NO_TYPE, and this should be an error
         // TODO: may need to aggregate the error instead of simply stdout
+        // ctx.getStart().getStartIndex()
+//        ctx.getStart()
         return new VariableExp(ctx.getText());
     }
 

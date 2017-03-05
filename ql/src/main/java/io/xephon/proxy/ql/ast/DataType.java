@@ -6,5 +6,5 @@ package io.xephon.proxy.ql.ast;
  * Built in data types
  */
 public enum DataType {
-    INT, BOOL, STRING, Date
+    INT, BOOL, STRING, Date, NO_TYPE
 }
