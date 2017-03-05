@@ -6,6 +6,7 @@ import io.xephon.proxy.ql.parser.ReikaParser;
  * Created by at15 on 3/4/17.
  * <p>
  * Built in data types
+ * @TODO override toString to show lower case when println
  */
 public enum DataType {
     INT, BOOL, STRING, Date, NO_TYPE, UNDEFINED_TYPE;

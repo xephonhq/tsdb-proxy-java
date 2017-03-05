@@ -1,5 +1,6 @@
 package io.xephon.proxy.ql.parser;
 
+import io.xephon.proxy.ql.checker.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
 
@@ -19,5 +20,6 @@ public class ReikaAstBuilderTest {
         baseVisitor.visit(t);
         ReikaAstBuilder astBuilder = new ReikaAstBuilder();
         System.out.println(astBuilder.visit(t));
+        SymbolTable.printTable(astBuilder.getSymbolTable());
     }
 }

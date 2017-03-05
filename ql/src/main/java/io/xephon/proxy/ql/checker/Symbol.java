@@ -13,8 +13,8 @@ public class Symbol {
     // TODO: what about function? just ignore it by now ...
     public DataType type;
 
-    public Symbol(String id, Token token) {
-        this.id = id;
+    public Symbol(Token token) {
+        this.id = token.getText();
         line = token.getLine();
         // TODO: do we need + 1? since in a lot of editors column and line all starts from 1
         // in ANTLR line starts from 1, but char index start from 0
@@ -22,8 +22,8 @@ public class Symbol {
         type = DataType.UNDEFINED_TYPE;
     }
 
-    public Symbol(String id, Token token, DataType type) {
-        this(id, token);
+    public Symbol(Token token, DataType type) {
+        this(token);
         this.type = type;
     }
 }

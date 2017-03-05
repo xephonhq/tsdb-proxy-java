@@ -34,8 +34,9 @@ public class SymbolTable {
      * @throws DuplicateDeclarationException
      * @TODO: need to have recovery, set the symbol to the latest type, i.e. addSafe
      */
-    public void add(DataType type, String id, Token token) throws DuplicateDeclarationException {
-        Symbol symbol = new Symbol(id, token, type);
+    public void add(DataType type, Token token) throws DuplicateDeclarationException {
+        String id = token.getText();
+        Symbol symbol = new Symbol(token, type);
         if (!table.containsKey(id)) {
             table.put(id, symbol);
         }
@@ -50,4 +51,10 @@ public class SymbolTable {
         return table.get(id);
     }
 
+    public static void printTable(SymbolTable table) {
+        // FIXME: idea say this could be replaced with expression lambda
+        table.table.forEach((id, symbol) -> {
+            System.out.printf("%s %s defined on %d, %d\n", symbol.type, id, symbol.line, symbol.column);
+        });
+    }
 }

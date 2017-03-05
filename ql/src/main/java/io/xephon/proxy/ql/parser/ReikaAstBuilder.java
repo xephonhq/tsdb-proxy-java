@@ -1,7 +1,11 @@
 package io.xephon.proxy.ql.parser;
 
 import io.xephon.proxy.ql.ast.*;
+import io.xephon.proxy.ql.checker.DuplicateDeclarationException;
+import io.xephon.proxy.ql.checker.Symbol;
 import io.xephon.proxy.ql.checker.SymbolTable;
+import io.xephon.proxy.ql.checker.UndefinedIdentifierException;
+import org.antlr.v4.runtime.Token;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +21,19 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
     private SymbolTable symbolTable;
     private List<Stat> statements;
 
+    public SymbolTable getSymbolTable() {
+        return symbolTable;
+    }
+
+    public List<Stat> getStatements() {
+        return statements;
+    }
+
     @Override
     public Node visitProg(ReikaParser.ProgContext ctx) {
+        symbolTable = new SymbolTable();
         statements = new ArrayList<>();
+
         System.out.println("visit program!");
         // visit every statement, prog is the root
         List<ReikaParser.StatContext> statContexts = ctx.stat();
@@ -40,7 +54,12 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         System.out.println("line:" + ctx.varDeclare().getStart().getLine());
         ReikaParser.VarDeclareContext declareContext = ctx.varDeclare();
         DataType type = DataType.type(declareContext.type());
-        symbolTable.add(declareContext.ID().get, type);
+        Token id = declareContext.ID().getSymbol();
+        try {
+            symbolTable.add(type, id);
+        } catch (DuplicateDeclarationException ex) {
+            // TODO: do sth, record the exception and recovery from it
+        }
         return visitChildren(ctx);
     }
 
@@ -49,6 +68,14 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         System.out.println("visit var assign statement");
         System.out.println(ctx.varAssign().ID().getText());
         System.out.println(ctx.varAssign().expr().getText());
+        ReikaParser.VarAssignContext assignContext = ctx.varAssign();
+        Token id = assignContext.ID().getSymbol();
+        try {
+            Symbol symbol = symbolTable.resolve(id);
+            // TODO: check if the assign is type compatible
+        } catch (UndefinedIdentifierException ex) {
+            // TODO: do sth, and how to recovery from it
+        }
         return visitChildren(ctx);
     }
 
@@ -56,6 +83,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
     public Node visitExprStat(ReikaParser.ExprStatContext ctx) {
         System.out.println("visit expr statement");
         System.out.println(ctx.expr().getText());
+        // NOTE: itself don't need to resolve symbol, it the expression it need to do these
         return visitChildren(ctx);
     }
 
