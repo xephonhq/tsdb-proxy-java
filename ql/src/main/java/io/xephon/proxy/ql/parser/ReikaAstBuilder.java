@@ -60,14 +60,13 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         } catch (DuplicateDeclarationException ex) {
             // TODO: do sth, record the exception and recovery from it
         }
-        return visitChildren(ctx);
+        // TODO: exception in the rhs
+        return new VarDeclareStat(new VariableExp(id.getText()), (Exp) visit(declareContext.expr()));
     }
 
     @Override
     public Node visitVarAssignStat(ReikaParser.VarAssignStatContext ctx) {
         System.out.println("visit var assign statement");
-        System.out.println(ctx.varAssign().ID().getText());
-        System.out.println(ctx.varAssign().expr().getText());
         ReikaParser.VarAssignContext assignContext = ctx.varAssign();
         Token id = assignContext.ID().getSymbol();
         try {
@@ -76,7 +75,8 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         } catch (UndefinedIdentifierException ex) {
             // TODO: do sth, and how to recovery from it
         }
-        return visitChildren(ctx);
+        // TODO: what about the exceptions in the rhs
+        return new VarAssignStat(new VariableExp(id.getText()), (Exp) visit(assignContext.expr()));
     }
 
     @Override
@@ -101,6 +101,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         System.out.println("trim quote mark? " + s.substring(1, s.length() - 1));
         System.out.println(ctx.getStart().getCharPositionInLine());
         System.out.println(ctx.getStart().getStartIndex()); // NOTE: this is not the column we want
+        // TODO: trim the quote mark
         return new StringExp(ctx.STRING().getText());
     }
 
@@ -115,6 +116,10 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         // TODO: may need to aggregate the error instead of simply stdout
         // ctx.getStart().getStartIndex()
 //        ctx.getStart()
+        System.out.println("variable text is " + ctx.getText());
+        // Current solution should be, variable will resolve it, when assign, variable is not visited
+        // VarDeclare handle the creation of VariableExp when declare, for assign, it is visited as normal ?
+        // No, it should handle it differently to provide more detail message
         return new VariableExp(ctx.getText());
     }
 

@@ -6,4 +6,11 @@ package io.xephon.proxy.ql.ast;
  * Variable declaration statement
  */
 public class VarDeclareStat extends Stat {
+    public final VariableExp var;
+    public final Exp exp;
+
+    public VarDeclareStat(VariableExp var, Exp exp) {
+        this.var = var;
+        this.exp = exp;
+    }
 }
