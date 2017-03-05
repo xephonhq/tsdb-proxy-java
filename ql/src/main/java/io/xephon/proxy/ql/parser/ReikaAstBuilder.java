@@ -15,7 +15,7 @@ import java.util.List;
  * <p>
  * Build AST
  *
- * @TODO: should use Node instead of Void, but Prog has can have a list of statement
+ * @TODO: maybe we should use a wrapper class as return value Optional or StatOrNode etc.
  */
 public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
     private SymbolTable symbolTable;
@@ -29,6 +29,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         return statements;
     }
 
+    // start of statements
     @Override
     public Node visitProg(ReikaParser.ProgContext ctx) {
         symbolTable = new SymbolTable();
@@ -41,17 +42,13 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
             statements.add((Stat) visit(stat));
         }
         System.out.println("total statements: " + statements.size());
-        // TODO: maybe we should use optional or StatOrNode, things like that
+        // FIXME: returning null is never a good idea
         return null;
     }
 
     @Override
     public Node visitVarDeclareStat(ReikaParser.VarDeclareStatContext ctx) {
         System.out.println("visit var declare statement");
-        System.out.println(ctx.varDeclare().type().getText());
-        System.out.println(ctx.varDeclare().ID().getText());
-        System.out.println(ctx.varDeclare().expr().getText());
-        System.out.println("line:" + ctx.varDeclare().getStart().getLine());
         ReikaParser.VarDeclareContext declareContext = ctx.varDeclare();
         DataType type = DataType.type(declareContext.type());
         Token id = declareContext.ID().getSymbol();
@@ -82,10 +79,10 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
     @Override
     public Node visitExprStat(ReikaParser.ExprStatContext ctx) {
         System.out.println("visit expr statement");
-        System.out.println(ctx.expr().getText());
         // NOTE: itself don't need to resolve symbol, it the expression it need to do these
-        return visitChildren(ctx);
+        return new ExpStat((Exp) visit(ctx.expr()));
     }
+    // end of statements
 
     // start of expressions
     @Override
@@ -95,14 +92,10 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
 
     @Override
     public Node visitString(ReikaParser.StringContext ctx) {
-        // TODO: will this include the quote mark?
-        System.out.println("have quote mark? " + ctx.STRING().getText());
         String s = ctx.STRING().getText();
-        System.out.println("trim quote mark? " + s.substring(1, s.length() - 1));
-        System.out.println(ctx.getStart().getCharPositionInLine());
-        System.out.println(ctx.getStart().getStartIndex()); // NOTE: this is not the column we want
-        // TODO: trim the quote mark
-        return new StringExp(ctx.STRING().getText());
+        // trim the quote mark
+        // TODO: don't know if escape is proper handled
+        return new StringExp(s.substring(1, s.length() - 1));
     }
 
     @Override
@@ -120,13 +113,26 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         // Current solution should be, variable will resolve it, when assign, variable is not visited
         // VarDeclare handle the creation of VariableExp when declare, for assign, it is visited as normal ?
         // No, it should handle it differently to provide more detail message
+        try {
+            symbolTable.resolve(ctx.ID().getSymbol());
+        } catch (UndefinedIdentifierException ex) {
+            // TODO: handle it
+        }
         return new VariableExp(ctx.getText());
     }
 
     @Override
     public Node visitCall(ReikaParser.CallContext ctx) {
         System.out.println("visit call expression");
-//        ctx.exprList().expr(); // this will return a list
-        return visitChildren(ctx);
+        // TODO: check if the function is defined
+        // TODo: type check
+        String id = ctx.ID().getText();
+        List<ReikaParser.ExprContext> argContexts = ctx.exprList().expr();
+        List<Exp> args = new ArrayList<>();
+        for (ReikaParser.ExprContext argContext : argContexts) {
+            args.add((Exp) visit(argContext));
+        }
+        return new CallExp(id, args);
     }
+    // end of expressions
 }
