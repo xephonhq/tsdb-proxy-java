@@ -5,7 +5,7 @@ package io.xephon.proxy.ql.ast;
  * <p>
  * String
  */
-public class StringLiteral extends Exp {
+public class StringLiteral extends StringExp {
     public String value;
 
     public StringLiteral(String s) {

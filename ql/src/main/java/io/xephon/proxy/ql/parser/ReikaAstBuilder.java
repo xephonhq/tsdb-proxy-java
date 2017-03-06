@@ -97,15 +97,17 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         ReikaParser.VarDeclareContext declareContext = ctx.varDeclare();
         DataType type = DataType.type(declareContext.type());
         Token id = declareContext.ID().getSymbol();
+        // declare the variable check if it is already defined
         try {
             symbolTable.add(type, id);
-            // TODO: check the type of right hand side
         } catch (DuplicateDeclarationException ex) {
-            // TODO: recovery, in this case, the type should be changed to the newest declaration
             recordError(ex);
             logger().error(ex.getMessage());
+            // TODO: recovery, in this case, the type should be changed to the newest declaration
         }
         VariableExp var = new VariableExp(id.getText(), type);
+        // TODO: check the type of right hand side
+
         return new VarDeclareStat(var, (Exp) visit(declareContext.expr()));
     }
 

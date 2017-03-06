@@ -6,6 +6,7 @@ import io.xephon.proxy.ql.parser.ReikaParser;
  * Created by at15 on 3/4/17.
  * <p>
  * Built in data types
+ *
  * @TODO override toString to show lower case when println
  */
 public enum DataType {
@@ -28,5 +29,18 @@ public enum DataType {
 
     public static DataType type(ReikaParser.TypeContext ctx) {
         return type(ctx.getText());
+    }
+
+    public static DataType type(Exp exp) {
+        if (exp instanceof IntegerExp) {
+            return INT;
+        } else if (exp instanceof DoubleExp) {
+            return DOUBLE;
+        } else if (exp instanceof BoolExp) {
+            return BOOL;
+        } else if (exp instanceof StringExp) {
+            return STRING;
+        }
+        return UNDEFINED_TYPE;
     }
 }
