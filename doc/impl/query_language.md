@@ -16,6 +16,11 @@ Date
 
 - Java8 provides new API
   - [ ] https://docs.oracle.com/javase/tutorial/datetime/TOC.html
+
+## SymbolTable & Type Check
+
+- symbol table store not only id and type, also store symbol, which gives the line and column of the symbol is defined
+- var declaration fill the symbol table and would have `DuplicateDeclarationException` if it is declared before
   
 ## TODO
 
@@ -28,10 +33,9 @@ Date
 - [ ] show syntax error and type error
   - Guide `listeners/CheckSymbols.java`, 
   
-````java
+````
 public static void error(Token t, String msg) {
-    System.err.printf("line %d:%d %s\n", t.getLine(), t.getCharPositionInLine(),
-                      msg);
+    System.err.printf("line %d:%d %s\n", t.getLine(), t.getCharPositionInLine(), msg);
 }
 CheckSymbols.error(ctx.ID().getSymbol(), "no such function: "+funcName);
 ````

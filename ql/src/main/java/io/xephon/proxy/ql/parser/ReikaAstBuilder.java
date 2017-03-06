@@ -56,8 +56,12 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
             symbolTable.add(type, id);
         } catch (DuplicateDeclarationException ex) {
             // TODO: do sth, record the exception and recovery from it
+            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
-        // TODO: exception in the rhs
+        // TODO: should type be put into VarExp, or always look up from Symbol table
+        // if the semantics is correct, without scope, variable should have just one type
+        // so keep it
         return new VarDeclareStat(new VariableExp(id.getText()), (Exp) visit(declareContext.expr()));
     }
 
@@ -71,6 +75,8 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
             // TODO: check if the assign is type compatible
         } catch (UndefinedIdentifierException ex) {
             // TODO: do sth, and how to recovery from it
+            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
         // TODO: what about the exceptions in the rhs
         return new VarAssignStat(new VariableExp(id.getText()), (Exp) visit(assignContext.expr()));
@@ -100,19 +106,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
 
     @Override
     public Node visitVariable(ReikaParser.VariableContext ctx) {
-        // FIXME: visitVariable can't know its data type
-        // for var declare stmt, it can know it
-        // for var assign stmt, need to lookup symbol table
-        // another way to do it is
-        //    - fill the symbol table when encounter declare statement
-        //    - look up symbol table if not found assign it to NO_TYPE, and this should be an error
-        // TODO: may need to aggregate the error instead of simply stdout
-        // ctx.getStart().getStartIndex()
-//        ctx.getStart()
         System.out.println("variable text is " + ctx.getText());
-        // Current solution should be, variable will resolve it, when assign, variable is not visited
-        // VarDeclare handle the creation of VariableExp when declare, for assign, it is visited as normal ?
-        // No, it should handle it differently to provide more detail message
         try {
             symbolTable.resolve(ctx.ID().getSymbol());
         } catch (UndefinedIdentifierException ex) {
