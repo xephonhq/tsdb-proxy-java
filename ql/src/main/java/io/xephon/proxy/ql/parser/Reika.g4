@@ -20,16 +20,16 @@ stat : varDeclare # VarDeclareStat
      | varAssign # VarAssignStat
      | expr ';' # ExprStat
      ;
-expr : ID '(' exprList? ')' # Call
+expr : INT # Int
+     | DOUBLE # Double
+     | BOOL # Bool
+     | STRING # String
+     | ID '(' exprList? ')' # Call
      | ID # Variable
      | expr ADD expr # Add
      | expr MINUS expr # Minus
      | expr MULT expr # Mult
      | expr DIV expr # Div
-     | INT # Int
-     | DOUBLE # Double
-     | BOOL # Bool
-     | STRING # String
      ;
 
 exprList : expr (',' expr)* ;   // arg list

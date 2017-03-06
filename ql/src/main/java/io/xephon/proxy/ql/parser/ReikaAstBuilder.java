@@ -53,17 +53,15 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         DataType type = DataType.type(declareContext.type());
         Token id = declareContext.ID().getSymbol();
         try {
-            System.out.println("fill symbol table");
             symbolTable.add(type, id);
         } catch (DuplicateDeclarationException ex) {
             // TODO: do sth, record the exception and recovery from it
+            // in this case, the type should be changed to the newest declaration
             System.err.println(ex.getMessage());
             ex.printStackTrace();
         }
-        // TODO: should type be put into VarExp, or always look up from Symbol table
-        // if the semantics is correct, without scope, variable should have just one type
-        // so keep it
-        return new VarDeclareStat(new VariableExp(id.getText()), (Exp) visit(declareContext.expr()));
+        VariableExp var = new VariableExp(id.getText(), type);
+        return new VarDeclareStat(var, (Exp) visit(declareContext.expr()));
     }
 
     @Override
@@ -71,16 +69,18 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         System.out.println("visit var assign statement");
         ReikaParser.VarAssignContext assignContext = ctx.varAssign();
         Token id = assignContext.ID().getSymbol();
+        DataType type = DataType.UNDEFINED_TYPE;
         try {
             Symbol symbol = symbolTable.resolve(id);
+            type = symbol.type;
             // TODO: check if the assign is type compatible
         } catch (UndefinedIdentifierException ex) {
             // TODO: do sth, and how to recovery from it
             System.err.println(ex.getMessage());
             ex.printStackTrace();
         }
-        // TODO: what about the exceptions in the rhs
-        return new VarAssignStat(new VariableExp(id.getText()), (Exp) visit(assignContext.expr()));
+        VariableExp var = new VariableExp(id.getText(), type);
+        return new VarAssignStat(var, (Exp) visit(assignContext.expr()));
     }
 
     @Override
@@ -92,6 +92,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
     // end of statements
 
     // start of expressions
+    // start of literal expressions
     @Override
     public Node visitInt(ReikaParser.IntContext ctx) {
         return new IntegerExp(Integer.parseInt(ctx.INT().getText()));
@@ -108,13 +109,18 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
     @Override
     public Node visitVariable(ReikaParser.VariableContext ctx) {
         System.out.println("variable text is " + ctx.getText());
+        DataType type = DataType.UNDEFINED_TYPE;
         try {
-            symbolTable.resolve(ctx.ID().getSymbol());
+            Symbol symbol = symbolTable.resolve(ctx.ID().getSymbol());
+            type = symbol.type;
         } catch (UndefinedIdentifierException ex) {
             // TODO: handle it
+            System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
-        return new VariableExp(ctx.getText());
+        return new VariableExp(ctx.getText(), type);
     }
+    // end of literal expressions
 
     @Override
     public Node visitCall(ReikaParser.CallContext ctx) {
@@ -129,5 +135,31 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         }
         return new CallExp(id, args);
     }
+
+    // start of binary operations
+    @Override
+    public Node visitAdd(ReikaParser.AddContext ctx) {
+        return new IntegerBinaryExp(BinaryExp.Operator.ADD,
+            (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
+    }
+
+    @Override
+    public Node visitMinus(ReikaParser.MinusContext ctx) {
+        return new IntegerBinaryExp(BinaryExp.Operator.MINUS,
+            (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
+    }
+
+    @Override
+    public Node visitMult(ReikaParser.MultContext ctx) {
+        return new IntegerBinaryExp(BinaryExp.Operator.MULT,
+            (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
+    }
+
+    @Override
+    public Node visitDiv(ReikaParser.DivContext ctx) {
+        return new IntegerBinaryExp(BinaryExp.Operator.DIV,
+            (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
+    }
+    // end of binary operations
     // end of expressions
 }

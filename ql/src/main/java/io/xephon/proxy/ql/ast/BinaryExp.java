@@ -6,4 +6,7 @@ package io.xephon.proxy.ql.ast;
  * @TODO: make it abstract and have MultiplyExp, AddExp or just use it
  */
 public abstract class BinaryExp extends Exp {
+    public enum Operator {
+        ADD, MINUS, MULT, DIV
+    }
 }
