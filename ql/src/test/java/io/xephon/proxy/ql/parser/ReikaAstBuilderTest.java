@@ -2,7 +2,9 @@ package io.xephon.proxy.ql.parser;
 
 import io.xephon.proxy.ql.checker.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.junit.Assert;
+
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 import java.io.IOException;
@@ -46,8 +48,12 @@ public class ReikaAstBuilderTest {
         ParseTree tree = parser.prog();
         ReikaAstBuilder astBuilder = new ReikaAstBuilder();
         astBuilder.visit(tree);
-        Assert.assertTrue(astBuilder.hasError());
+        assertTrue(astBuilder.hasError());
         System.out.println(astBuilder.errorAbstract());
         astBuilder.printErrors();
+    }
+
+    public void testTypeAssignOnly() throws IOException {
+
     }
 }

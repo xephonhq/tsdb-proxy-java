@@ -19,7 +19,7 @@ public class ReikaANTLRGeneratedTest {
     }
 
     @Test
-    public void testGeneratedVisitor() throws IOException{
+    public void testGeneratedVisitor() throws IOException {
         ReikaParser parser = Util.parserFromResource("skeleton.reika");
         ParseTree t = parser.prog();
         ReikaBaseVisitor baseVisitor = new ReikaBaseVisitor();
