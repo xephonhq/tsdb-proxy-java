@@ -429,29 +429,6 @@ public class ReikaParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class AddContext extends ExprContext {
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public TerminalNode ADD() { return getToken(ReikaParser.ADD, 0); }
-		public AddContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterAdd(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitAdd(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitAdd(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class DivContext extends ExprContext {
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -472,6 +449,29 @@ public class ReikaParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitDiv(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class AddContext extends ExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode ADD() { return getToken(ReikaParser.ADD, 0); }
+		public AddContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).enterAdd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ReikaListener ) ((ReikaListener)listener).exitAdd(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ReikaVisitor ) return ((ReikaVisitor<? extends T>)visitor).visitAdd(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -730,48 +730,48 @@ public class ReikaParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 					case 1:
 						{
-						_localctx = new AddContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new MultContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(53);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(54);
-						match(ADD);
+						match(MULT);
 						setState(55);
 						expr(5);
 						}
 						break;
 					case 2:
 						{
-						_localctx = new MinusContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new DivContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(56);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(57);
-						match(MINUS);
+						match(DIV);
 						setState(58);
 						expr(4);
 						}
 						break;
 					case 3:
 						{
-						_localctx = new MultContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new AddContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(59);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
 						setState(60);
-						match(MULT);
+						match(ADD);
 						setState(61);
 						expr(3);
 						}
 						break;
 					case 4:
 						{
-						_localctx = new DivContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new MinusContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(62);
 						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
 						setState(63);
-						match(DIV);
+						match(MINUS);
 						setState(64);
 						expr(2);
 						}
@@ -898,8 +898,8 @@ public class ReikaParser extends Parser {
 		"\2\2,\66\7\17\2\2-\66\7\20\2\2./\7\21\2\2/\61\7\n\2\2\60\62\5\16\b\2\61"+
 		"\60\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\63\66\7\13\2\2\64\66\7\21\2\2"+
 		"\65)\3\2\2\2\65+\3\2\2\2\65,\3\2\2\2\65-\3\2\2\2\65.\3\2\2\2\65\64\3\2"+
-		"\2\2\66E\3\2\2\2\678\f\6\2\289\7\22\2\29D\5\f\7\7:;\f\5\2\2;<\7\23\2\2"+
-		"<D\5\f\7\6=>\f\4\2\2>?\7\24\2\2?D\5\f\7\5@A\f\3\2\2AB\7\25\2\2BD\5\f\7"+
+		"\2\2\66E\3\2\2\2\678\f\6\2\289\7\24\2\29D\5\f\7\7:;\f\5\2\2;<\7\25\2\2"+
+		"<D\5\f\7\6=>\f\4\2\2>?\7\22\2\2?D\5\f\7\5@A\f\3\2\2AB\7\23\2\2BD\5\f\7"+
 		"\4C\67\3\2\2\2C:\3\2\2\2C=\3\2\2\2C@\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2"+
 		"\2\2F\r\3\2\2\2GE\3\2\2\2HM\5\f\7\2IJ\7\f\2\2JL\5\f\7\2KI\3\2\2\2LO\3"+
 		"\2\2\2MK\3\2\2\2MN\3\2\2\2N\17\3\2\2\2OM\3\2\2\2\t\23\'\61\65CEM";

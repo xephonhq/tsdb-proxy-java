@@ -56,19 +56,19 @@ public interface ReikaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExprStat(ReikaParser.ExprStatContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code Add}
-	 * labeled alternative in {@link ReikaParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAdd(ReikaParser.AddContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code Div}
 	 * labeled alternative in {@link ReikaParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDiv(ReikaParser.DivContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdd(ReikaParser.AddContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ReikaParser#expr}.

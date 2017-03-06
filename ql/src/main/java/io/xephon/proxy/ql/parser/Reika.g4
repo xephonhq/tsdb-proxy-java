@@ -27,10 +27,10 @@ expr : INT # Int
      | STRING # String
      | ID '(' exprList? ')' # Call
      | ID # Variable
-     | expr ADD expr # Add
-     | expr MINUS expr # Minus
      | expr MULT expr # Mult
      | expr DIV expr # Div
+     | expr ADD expr # Add
+     | expr MINUS expr # Minus
      ;
 
 exprList : expr (',' expr)* ;   // arg list

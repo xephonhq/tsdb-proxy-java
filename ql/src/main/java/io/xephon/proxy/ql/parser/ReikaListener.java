@@ -84,18 +84,6 @@ public interface ReikaListener extends ParseTreeListener {
 	 */
 	void exitExprStat(ReikaParser.ExprStatContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Add}
-	 * labeled alternative in {@link ReikaParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterAdd(ReikaParser.AddContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Add}
-	 * labeled alternative in {@link ReikaParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitAdd(ReikaParser.AddContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code Div}
 	 * labeled alternative in {@link ReikaParser#expr}.
 	 * @param ctx the parse tree
@@ -107,6 +95,18 @@ public interface ReikaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDiv(ReikaParser.DivContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdd(ReikaParser.AddContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdd(ReikaParser.AddContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ReikaParser#expr}.

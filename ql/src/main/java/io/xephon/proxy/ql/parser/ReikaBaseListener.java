@@ -100,18 +100,6 @@ public class ReikaBaseListener implements ReikaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAdd(ReikaParser.AddContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAdd(ReikaParser.AddContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDiv(ReikaParser.DivContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -119,6 +107,18 @@ public class ReikaBaseListener implements ReikaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDiv(ReikaParser.DivContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAdd(ReikaParser.AddContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdd(ReikaParser.AddContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

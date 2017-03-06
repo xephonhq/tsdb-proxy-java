@@ -66,14 +66,14 @@ public class ReikaBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAdd(ReikaParser.AddContext ctx) { return visitChildren(ctx); }
+	@Override public T visitDiv(ReikaParser.DivContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitDiv(ReikaParser.DivContext ctx) { return visitChildren(ctx); }
+	@Override public T visitAdd(ReikaParser.AddContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
