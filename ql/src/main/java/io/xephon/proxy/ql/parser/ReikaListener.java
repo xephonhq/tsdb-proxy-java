@@ -96,6 +96,18 @@ public interface ReikaListener extends ParseTreeListener {
 	 */
 	void exitAdd(ReikaParser.AddContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Div}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterDiv(ReikaParser.DivContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Div}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitDiv(ReikaParser.DivContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ReikaParser#expr}.
 	 * @param ctx the parse tree
@@ -120,6 +132,30 @@ public interface ReikaListener extends ParseTreeListener {
 	 */
 	void exitVariable(ReikaParser.VariableContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Mult}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterMult(ReikaParser.MultContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Mult}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitMult(ReikaParser.MultContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Bool}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterBool(ReikaParser.BoolContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Bool}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitBool(ReikaParser.BoolContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code String}
 	 * labeled alternative in {@link ReikaParser#expr}.
 	 * @param ctx the parse tree
@@ -131,6 +167,18 @@ public interface ReikaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitString(ReikaParser.StringContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Double}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterDouble(ReikaParser.DoubleContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Double}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitDouble(ReikaParser.DoubleContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Int}
 	 * labeled alternative in {@link ReikaParser#expr}.

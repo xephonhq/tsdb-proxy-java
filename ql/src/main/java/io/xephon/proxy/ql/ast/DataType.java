@@ -9,12 +9,18 @@ import io.xephon.proxy.ql.parser.ReikaParser;
  * @TODO override toString to show lower case when println
  */
 public enum DataType {
-    INT, BOOL, STRING, Date, NO_TYPE, UNDEFINED_TYPE;
+    INT, DOUBLE, BOOL, STRING, DATE, NO_TYPE, UNDEFINED_TYPE;
 
     public static DataType type(String t) {
         switch (t) {
             case "int":
                 return INT;
+            case "double":
+                return DOUBLE;
+            case "bool":
+                return BOOL;
+            case "string":
+                return STRING;
             default:
                 return UNDEFINED_TYPE;
         }

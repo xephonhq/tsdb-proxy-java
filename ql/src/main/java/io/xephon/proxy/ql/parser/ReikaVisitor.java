@@ -63,6 +63,13 @@ public interface ReikaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAdd(ReikaParser.AddContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Div}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDiv(ReikaParser.DivContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Call}
 	 * labeled alternative in {@link ReikaParser#expr}.
 	 * @param ctx the parse tree
@@ -77,12 +84,33 @@ public interface ReikaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(ReikaParser.VariableContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Mult}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMult(ReikaParser.MultContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Bool}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBool(ReikaParser.BoolContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code String}
 	 * labeled alternative in {@link ReikaParser#expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitString(ReikaParser.StringContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Double}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDouble(ReikaParser.DoubleContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Int}
 	 * labeled alternative in {@link ReikaParser#expr}.

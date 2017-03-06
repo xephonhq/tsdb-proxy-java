@@ -13,7 +13,7 @@ grammar Reika;
 //prog : stat+ | expr;
 prog : stat+ ;
 
-type : 'int' | 'bool' | 'string' | 'date';
+type : 'int' | 'double' | 'bool' | 'string' | 'date';
 varDeclare : type ID '=' expr ';';
 varAssign : ID '=' expr ';';
 stat : varDeclare # VarDeclareStat
@@ -24,7 +24,11 @@ expr : ID '(' exprList? ')' # Call
      | ID # Variable
      | expr ADD expr # Add
      | expr MINUS expr # Minus
+     | expr MULT expr # Mult
+     | expr DIV expr # Div
      | INT # Int
+     | DOUBLE # Double
+     | BOOL # Bool
      | STRING # String
      ;
 
@@ -37,7 +41,9 @@ fragment
 LETTER : [a-zA-Z] ;
 
 INT :   [0-9]+ ;
-
+// NOTE: from Java.g4
+DOUBLE: [0-9]+ '.' [0-9]+ ;
+BOOL : 'true' | 'false' ;
 // NOTE: from Chapter 05, only support escape "
 STRING: '"' (ESC|.)*? '"';
 fragment
@@ -45,7 +51,13 @@ ESC : '\\"' | '\\\\' ; // 2-char sequences \" and \\
 
 ADD : '+';
 MINUS: '-';
+MULT: '*';
+DIV: '/';
 
-WS  :   [ \t\n\r]+ -> skip ;
-
-SL_COMMENT :   '//' .*? '\n' -> skip ;
+WS  :   [ \t\n\r]+ -> channel(HIDDEN)
+    ;
+COMMENT
+    :   '/*' .*? '*/'    -> channel(HIDDEN) // match anything between /* and */
+    ;
+SL_COMMENT :   '//' .*? '\n' -> channel(HIDDEN)
+    ;
