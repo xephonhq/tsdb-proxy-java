@@ -1,5 +1,7 @@
 package io.xephon.proxy.ql.interpreter;
 
+import io.xephon.proxy.common.Loggable;
+import io.xephon.proxy.ql.ReikaRuntimeException;
 import io.xephon.proxy.ql.ast.*;
 
 import java.util.HashMap;
@@ -11,7 +13,7 @@ import java.util.Map;
  * <p>
  * NaiveInterpreter use is instanceof instead of visitor pattern
  */
-public class NaiveInterpreter {
+public class NaiveInterpreter implements Loggable {
     private Map<String, Integer> integerVariables;
 
     public NaiveInterpreter() {
@@ -19,24 +21,26 @@ public class NaiveInterpreter {
     }
 
     public void evalProgram(List<Stat> statements) {
+        logger().info("start eval a program");
         for (Stat stat : statements) {
             evalStatement(stat);
         }
+        logger().info("finish eval a program");
     }
 
     public void evalStatement(Stat stat) {
         if (stat instanceof VarDeclareStat) {
-            System.out.println("It's declare");
+            logger().trace("eval declare statement");
             VarDeclareStat declareStat = (VarDeclareStat) stat;
             declareVar(declareStat.var.name, declareStat.exp);
         } else if (stat instanceof VarAssignStat) {
-            System.out.println("It's assign ");
+            logger().trace("eval assign statement");
             VarAssignStat assignStat = (VarAssignStat) stat;
             assignVar(assignStat.var.name, assignStat.exp);
         } else if (stat instanceof ExpStat) {
-            System.out.println("It's expr");
+            logger().trace("eval expression statement");
         } else {
-            System.err.println("Unknown statement!");
+            throw new ReikaRuntimeException("Unknown type of statement");
         }
     }
 
@@ -92,14 +96,13 @@ public class NaiveInterpreter {
                 case MULT:
                     return l * r;
                 case DIV:
-                    // TODO: handle exception
+                    // TODO: handle divide by zero exception
                     return l / r;
                 default:
-                    System.err.printf("can't handler operator %s\n", bexp.operator);
+                    throw new ReikaRuntimeException(String.format("Operator %s is not supported for integer expression", bexp.operator));
             }
         }
-        // TODO: should throw exception
-        System.err.printf("unsupported integer expression");
-        return 0;
+        // TODO: toString of the expression?
+        throw new ReikaRuntimeException("Unknown type of integer expression");
     }
 }

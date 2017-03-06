@@ -1,5 +1,6 @@
 package io.xephon.proxy.ql.parser;
 
+import io.xephon.proxy.common.Loggable;
 import io.xephon.proxy.ql.ast.*;
 import io.xephon.proxy.ql.checker.DuplicateDeclarationException;
 import io.xephon.proxy.ql.checker.Symbol;
@@ -17,7 +18,7 @@ import java.util.List;
  *
  * @TODO: maybe we should use a wrapper class as return value Optional or StatOrNode etc.
  */
-public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
+public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable {
     private SymbolTable symbolTable;
     private List<Stat> statements;
 
@@ -35,7 +36,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         symbolTable = new SymbolTable();
         statements = new ArrayList<>();
 
-        System.out.println("visit program!");
+        logger().info("visit program");
         // visit every statement, prog is the root
         List<ReikaParser.StatContext> statContexts = ctx.stat();
         for (ReikaParser.StatContext stat : statContexts) {
