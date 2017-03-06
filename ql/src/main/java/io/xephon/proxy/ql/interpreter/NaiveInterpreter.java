@@ -31,6 +31,8 @@ public class NaiveInterpreter {
             declareVar(declareStat.var.name, declareStat.exp);
         } else if (stat instanceof VarAssignStat) {
             System.out.println("It's assign ");
+            VarAssignStat assignStat = (VarAssignStat) stat;
+            assignVar(assignStat.var.name, assignStat.exp);
         } else if (stat instanceof ExpStat) {
             System.out.println("It's expr");
         } else {
@@ -44,29 +46,60 @@ public class NaiveInterpreter {
         }
     }
 
+    public void assignVar(String id, Exp exp) {
+        if (exp instanceof IntegerExp) {
+            integerVariables.put(id, evalExpression((IntegerExp) exp));
+        }
+    }
+
     public Integer resolveInt(String id) {
         // TODO: throw error if not found
         return integerVariables.get(id);
     }
 
-    // TODO: may use interface for generic? or IntLiterial and IntExpression should derive from same class
+    public String evalExpression(StringLiteral exp) {
+        return exp.value;
+    }
+
+    public Object evalExpression(VariableExp exp) {
+        if (exp.type == DataType.INT) {
+            return resolveInt(exp.name);
+        }
+        return null;
+    }
+
     public Integer evalExpression(IntegerExp exp) {
         if (exp instanceof IntegerLiteral) {
             return ((IntegerLiteral) exp).value;
         } else if (exp instanceof IntegerBinaryExp) {
             IntegerBinaryExp bexp = (IntegerBinaryExp) exp;
+            Integer l, r;
+            if (bexp.l instanceof VariableExp) {
+                l = resolveInt(((VariableExp) bexp.l).name);
+            } else {
+                l = evalExpression((IntegerExp) bexp.l);
+            }
+            if (bexp.r instanceof VariableExp) {
+                r = resolveInt(((VariableExp) bexp.r).name);
+            } else {
+                r = evalExpression((IntegerExp) bexp.r);
+            }
             switch (bexp.operator) {
                 case ADD:
-                    // FIXME: for a correct program, the lhs and rhs is IntegerExp for sure
-                    // and the IntegerBinaryExp class should not use Exp
-                    // TODO: this can't handle when the lhs is variable
-                    return evalExpression((IntegerExp) bexp.l) + evalExpression((IntegerExp) bexp.r);
+                    return l + r;
+                case MINUS:
+                    return l - r;
                 case MULT:
-                    return evalExpression((IntegerExp) bexp.l) * evalExpression((IntegerExp) bexp.r);
+                    return l * r;
+                case DIV:
+                    // TODO: handle exception
+                    return l / r;
                 default:
                     System.err.printf("can't handler operator %s\n", bexp.operator);
             }
         }
+        // TODO: should throw exception
+        System.err.printf("unsupported integer expression");
         return 0;
     }
 }
