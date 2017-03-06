@@ -53,6 +53,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         DataType type = DataType.type(declareContext.type());
         Token id = declareContext.ID().getSymbol();
         try {
+            System.out.println("fill symbol table");
             symbolTable.add(type, id);
         } catch (DuplicateDeclarationException ex) {
             // TODO: do sth, record the exception and recovery from it

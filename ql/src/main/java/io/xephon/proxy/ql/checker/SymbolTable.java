@@ -39,8 +39,9 @@ public class SymbolTable {
         Symbol symbol = new Symbol(token, type);
         if (!table.containsKey(id)) {
             table.put(id, symbol);
+        } else {
+            throw new DuplicateDeclarationException(table.get(id), symbol);
         }
-        throw new DuplicateDeclarationException(table.get(id), symbol);
     }
 
     public Symbol resolve(Token token) throws UndefinedIdentifierException {
