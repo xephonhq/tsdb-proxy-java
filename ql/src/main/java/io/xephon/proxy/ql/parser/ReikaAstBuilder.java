@@ -22,6 +22,7 @@ import java.util.List;
 public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable {
     private SymbolTable symbolTable;
     private List<Stat> statements;
+    private List<ReikaException> allExceptions;
     private List<ReikaException> symbolExceptions;
     private List<ReikaException> typeExceptions;
 
@@ -29,7 +30,6 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         return symbolTable;
     }
 
-    // TODO: may need to getStatementsSafe method to skip checking
     public List<Stat> getStatements() throws ReikaException {
         if (hasError()) {
             throw new ReikaException(errorAbstract());
@@ -37,19 +37,42 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         return statements;
     }
 
+    // discard the error and get the statements
+    public List<Stat> getStatementsAnyway() {
+        return statements;
+    }
+
     private void clearTables() {
         symbolTable = new SymbolTable();
         statements = new ArrayList<>();
+        allExceptions = new ArrayList<>();
         symbolExceptions = new ArrayList<>();
         typeExceptions = new ArrayList<>();
     }
 
+    public void recordError(ReikaException ex) {
+        allExceptions.add(ex);
+        if (ex instanceof DuplicateDeclarationException) {
+            symbolExceptions.add(ex);
+        } else if (ex instanceof UndefinedIdentifierException) {
+            symbolExceptions.add(ex);
+        } else {
+            // TODO: fill it when have time
+        }
+    }
+
     public boolean hasError() {
-        return symbolExceptions.size() > 0 || typeExceptions.size() > 0;
+        return allExceptions.size() > 0;
     }
 
     public String errorAbstract() {
         return String.format("%d symbol errors, %d type errors", symbolExceptions.size(), typeExceptions.size());
+    }
+
+    public void printErrors() {
+        for (ReikaException ex : allExceptions) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     // start of statements
@@ -79,7 +102,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             // TODO: check the type of right hand side
         } catch (DuplicateDeclarationException ex) {
             // TODO: recovery, in this case, the type should be changed to the newest declaration
-            symbolExceptions.add(ex);
+            recordError(ex);
             logger().error(ex.getMessage());
         }
         VariableExp var = new VariableExp(id.getText(), type);
@@ -99,7 +122,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         } catch (UndefinedIdentifierException ex) {
             // TODO: how to recovery from it, a symbol as undefined into it?
             // or induct the type from rhs
-            symbolExceptions.add(ex);
+            recordError(ex);
             logger().error(ex.getMessage());
         }
         VariableExp var = new VariableExp(id.getText(), type);
@@ -137,7 +160,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             type = symbol.type;
         } catch (UndefinedIdentifierException ex) {
             // TODO: it seems this can't not be recovered, visitVariable is only called by ExprStat
-            symbolExceptions.add(ex);
+            recordError(ex);
             logger().error(ex.getMessage());
         }
         return new VariableExp(ctx.getText(), type);

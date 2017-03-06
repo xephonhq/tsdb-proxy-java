@@ -2,6 +2,7 @@ package io.xephon.proxy.ql.parser;
 
 import io.xephon.proxy.ql.checker.SymbolTable;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -31,5 +32,22 @@ public class ReikaAstBuilderTest {
         baseVisitor.visit(tree);
         ReikaAstBuilder astBuilder = new ReikaAstBuilder();
         astBuilder.visit(tree);
+    }
+
+    @Test
+    public void testSymbolError() throws IOException {
+// NOTE: uncomment the following code to see how java (IDEA) handle symbol error
+//        int a = 1;
+//        int a = 2; // duplicate declaration
+//        b = 3; // undefined identifier
+//        int c = d + 1; // undefined identifier
+//        int e = b + c; // TODO: if we have recover, then only b should be reported
+        ReikaParser parser = Util.parserFromResource("error_symbol.reika");
+        ParseTree tree = parser.prog();
+        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
+        astBuilder.visit(tree);
+        Assert.assertTrue(astBuilder.hasError());
+        System.out.println(astBuilder.errorAbstract());
+        astBuilder.printErrors();
     }
 }
