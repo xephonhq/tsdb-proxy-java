@@ -9,6 +9,9 @@ import org.jline.terminal.TerminalBuilder;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 /**
  * Created by at15 on 3/5/17.
  * <p>
@@ -16,12 +19,14 @@ import java.io.IOException;
  * <p>
  * https://github.com/jline/jline3/blob/master/builtins/src/test/java/org/jline/example/Example.java
  *
- * @TODO: provide system command like help
+ * @TODO: implement system command like help
  */
 public class Shell {
+    private static final Logger logger = LogManager.getLogger(Shell.class);
     private final String commandPrefix;
     private LineReader reader;
     private String prompt;
+
 
     public Shell() throws IOException {
         commandPrefix = ":";
@@ -44,6 +49,7 @@ public class Shell {
     public void processCommand(String rawCmd) {
         String cmd = rawCmd.substring(1).trim();
         if (cmd.startsWith("help")) {
+            // TODO: real help
             println("let me help you!");
             println("TODO: show available commands");
         } else if (cmd.equals("exit")) {
@@ -60,6 +66,7 @@ public class Shell {
     }
 
     public static void main(String[] args) throws Exception {
+        logger.trace("create shell object");
         Shell shell = new Shell();
         while (true) {
             String line = null;
