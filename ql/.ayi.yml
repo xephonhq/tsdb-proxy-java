@@ -1,7 +1,11 @@
 install:
   - gradle genParser
-  - gradle build
+  - gradle shadowJar
 scripts:
   grun:
     - gradle compileJava
     - java -cp ./build/libs/ql-0.0.1-SNAPSHOT.jar:./third_party/antlr-4.6-complete.jar org.antlr.v4.gui.TestRig io.xephon.proxy.ql.parser.Reika prog -gui
+  shell:
+    - gradle shadowJar
+    # FIXME: using ctrl + c will have different behaviour
+    - java -cp ./build/libs/ql-0.0.1-SNAPSHOT-all.jar io.xephon.proxy.ql.Shell

@@ -1,6 +1,19 @@
+apply plugin: 'com.github.johnrengelman.shadow'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
+
 dependencies {
     compile project(':common')
     compile group: 'org.antlr', name: 'antlr4', version: '4.6'
+    // NOTE: it seems jline3 is pretty old in maven central
+    compile 'com.github.jline:jline3:jline-3.1.3'
 }
 
 // Generate ANTLR Parser
