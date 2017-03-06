@@ -18,7 +18,7 @@ public class ReikaParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, ID=11, INT=12, DOUBLE=13, BOOL=14, STRING=15, ADD=16, MINUS=17, 
+		T__9=10, INT=11, DOUBLE=12, BOOL=13, STRING=14, ID=15, ADD=16, MINUS=17, 
 		MULT=18, DIV=19, WS=20, COMMENT=21, SL_COMMENT=22;
 	public static final int
 		RULE_prog = 0, RULE_type = 1, RULE_varDeclare = 2, RULE_varAssign = 3, 
@@ -33,8 +33,8 @@ public class ReikaParser extends Parser {
 		"'/'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, null, null, null, "ID", 
-		"INT", "DOUBLE", "BOOL", "STRING", "ADD", "MINUS", "MULT", "DIV", "WS", 
+		null, null, null, null, null, null, null, null, null, null, null, "INT", 
+		"DOUBLE", "BOOL", "STRING", "ID", "ADD", "MINUS", "MULT", "DIV", "WS", 
 		"COMMENT", "SL_COMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
@@ -132,7 +132,7 @@ public class ReikaParser extends Parser {
 				setState(17); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << ID) | (1L << INT) | (1L << DOUBLE) | (1L << BOOL) | (1L << STRING))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__0) | (1L << T__1) | (1L << T__2) | (1L << T__3) | (1L << T__4) | (1L << INT) | (1L << DOUBLE) | (1L << BOOL) | (1L << STRING) | (1L << ID))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -695,7 +695,7 @@ public class ReikaParser extends Parser {
 				setState(47);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ID) | (1L << INT) | (1L << DOUBLE) | (1L << BOOL) | (1L << STRING))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << DOUBLE) | (1L << BOOL) | (1L << STRING) | (1L << ID))) != 0)) {
 					{
 					setState(46);
 					exprList();
@@ -891,18 +891,18 @@ public class ReikaParser extends Parser {
 		"\2\3\3\2\3\7W\2\21\3\2\2\2\4\25\3\2\2\2\6\27\3\2\2\2\b\35\3\2\2\2\n\'"+
 		"\3\2\2\2\f\65\3\2\2\2\16H\3\2\2\2\20\22\5\n\6\2\21\20\3\2\2\2\22\23\3"+
 		"\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\26\t\2\2\2\26\5\3\2"+
-		"\2\2\27\30\5\4\3\2\30\31\7\r\2\2\31\32\7\b\2\2\32\33\5\f\7\2\33\34\7\t"+
-		"\2\2\34\7\3\2\2\2\35\36\7\r\2\2\36\37\7\b\2\2\37 \5\f\7\2 !\7\t\2\2!\t"+
-		"\3\2\2\2\"(\5\6\4\2#(\5\b\5\2$%\5\f\7\2%&\7\t\2\2&(\3\2\2\2\'\"\3\2\2"+
-		"\2\'#\3\2\2\2\'$\3\2\2\2(\13\3\2\2\2)*\b\7\1\2*\66\7\16\2\2+\66\7\17\2"+
-		"\2,\66\7\20\2\2-\66\7\21\2\2./\7\r\2\2/\61\7\n\2\2\60\62\5\16\b\2\61\60"+
-		"\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\63\66\7\13\2\2\64\66\7\r\2\2\65)"+
-		"\3\2\2\2\65+\3\2\2\2\65,\3\2\2\2\65-\3\2\2\2\65.\3\2\2\2\65\64\3\2\2\2"+
-		"\66E\3\2\2\2\678\f\6\2\289\7\22\2\29D\5\f\7\7:;\f\5\2\2;<\7\23\2\2<D\5"+
-		"\f\7\6=>\f\4\2\2>?\7\24\2\2?D\5\f\7\5@A\f\3\2\2AB\7\25\2\2BD\5\f\7\4C"+
-		"\67\3\2\2\2C:\3\2\2\2C=\3\2\2\2C@\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2"+
-		"\2F\r\3\2\2\2GE\3\2\2\2HM\5\f\7\2IJ\7\f\2\2JL\5\f\7\2KI\3\2\2\2LO\3\2"+
-		"\2\2MK\3\2\2\2MN\3\2\2\2N\17\3\2\2\2OM\3\2\2\2\t\23\'\61\65CEM";
+		"\2\2\27\30\5\4\3\2\30\31\7\21\2\2\31\32\7\b\2\2\32\33\5\f\7\2\33\34\7"+
+		"\t\2\2\34\7\3\2\2\2\35\36\7\21\2\2\36\37\7\b\2\2\37 \5\f\7\2 !\7\t\2\2"+
+		"!\t\3\2\2\2\"(\5\6\4\2#(\5\b\5\2$%\5\f\7\2%&\7\t\2\2&(\3\2\2\2\'\"\3\2"+
+		"\2\2\'#\3\2\2\2\'$\3\2\2\2(\13\3\2\2\2)*\b\7\1\2*\66\7\r\2\2+\66\7\16"+
+		"\2\2,\66\7\17\2\2-\66\7\20\2\2./\7\21\2\2/\61\7\n\2\2\60\62\5\16\b\2\61"+
+		"\60\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\63\66\7\13\2\2\64\66\7\21\2\2"+
+		"\65)\3\2\2\2\65+\3\2\2\2\65,\3\2\2\2\65-\3\2\2\2\65.\3\2\2\2\65\64\3\2"+
+		"\2\2\66E\3\2\2\2\678\f\6\2\289\7\22\2\29D\5\f\7\7:;\f\5\2\2;<\7\23\2\2"+
+		"<D\5\f\7\6=>\f\4\2\2>?\7\24\2\2?D\5\f\7\5@A\f\3\2\2AB\7\25\2\2BD\5\f\7"+
+		"\4C\67\3\2\2\2C:\3\2\2\2C=\3\2\2\2C@\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2"+
+		"\2\2F\r\3\2\2\2GE\3\2\2\2HM\5\f\7\2IJ\7\f\2\2JL\5\f\7\2KI\3\2\2\2LO\3"+
+		"\2\2\2MK\3\2\2\2MN\3\2\2\2N\17\3\2\2\2OM\3\2\2\2\t\23\'\61\65CEM";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

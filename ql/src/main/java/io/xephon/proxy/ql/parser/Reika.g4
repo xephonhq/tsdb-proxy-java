@@ -1,13 +1,14 @@
-// Reika is from Reika Mishima
-// The grammar file is based on ANTLR Guide Chapter 6 Cymbol
-//
-// Usage
-// - see build.gradle for detail
-// - gradle genParser
-// - Ayi run grun
-// TODO:
-// - support date
-// - entry of program
+/*
+ Reika is from Reika Mishima
+ The grammar file is based on ANTLR Guide Chapter 6 Cymbol
+
+ Usage
+ - gradle genParser
+ - Ayi run grun
+ - Unit tests in io.xephon.proxy.ql.parser
+ TODO:
+ - support date
+*/
 grammar Reika;
 
 //prog : stat+ | expr;
@@ -36,18 +37,19 @@ exprList : expr (',' expr)* ;   // arg list
 
 // tokens
 // TODO: add tokens for date or date time
-ID  :   LETTER (LETTER | [0-9])* ;
-fragment
-LETTER : [a-zA-Z] ;
-
 INT :   [0-9]+ ;
 // NOTE: from Java.g4
 DOUBLE: [0-9]+ '.' [0-9]+ ;
+// NOTE: must put BOOL before ID, otherwise true will be treated as identifier
 BOOL : 'true' | 'false' ;
 // NOTE: from Chapter 05, only support escape "
 STRING: '"' (ESC|.)*? '"';
 fragment
 ESC : '\\"' | '\\\\' ; // 2-char sequences \" and \\
+
+ID  :   LETTER (LETTER | [0-9])* ;
+fragment
+LETTER : [a-zA-Z] ;
 
 ADD : '+';
 MINUS: '-';

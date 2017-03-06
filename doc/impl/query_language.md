@@ -39,6 +39,9 @@ public static void error(Token t, String msg) {
 }
 CheckSymbols.error(ctx.ID().getSymbol(), "no such function: "+funcName);
 ````
+
+- MUST put BOOL before ID, otherwise true will be treated as identifier
+
 ## Ref 
 
 Courses 
