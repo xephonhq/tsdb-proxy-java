@@ -95,7 +95,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
     // start of literal expressions
     @Override
     public Node visitInt(ReikaParser.IntContext ctx) {
-        return new IntegerExp(Integer.parseInt(ctx.INT().getText()));
+        return new IntegerLiteral(Integer.parseInt(ctx.INT().getText()));
     }
 
     @Override
@@ -103,7 +103,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
         String s = ctx.STRING().getText();
         // trim the quote mark
         // TODO: don't know if escape is proper handled
-        return new StringExp(s.substring(1, s.length() - 1));
+        return new StringLiteral(s.substring(1, s.length() - 1));
     }
 
     @Override
@@ -139,25 +139,25 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
     // start of binary operations
     @Override
     public Node visitAdd(ReikaParser.AddContext ctx) {
-        return new IntegerBinaryExp(BinaryExp.Operator.ADD,
+        return new IntegerBinaryExp(BinaryOperator.ADD,
             (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
     }
 
     @Override
     public Node visitMinus(ReikaParser.MinusContext ctx) {
-        return new IntegerBinaryExp(BinaryExp.Operator.MINUS,
+        return new IntegerBinaryExp(BinaryOperator.MINUS,
             (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
     }
 
     @Override
     public Node visitMult(ReikaParser.MultContext ctx) {
-        return new IntegerBinaryExp(BinaryExp.Operator.MULT,
+        return new IntegerBinaryExp(BinaryOperator.MULT,
             (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
     }
 
     @Override
     public Node visitDiv(ReikaParser.DivContext ctx) {
-        return new IntegerBinaryExp(BinaryExp.Operator.DIV,
+        return new IntegerBinaryExp(BinaryOperator.DIV,
             (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
     }
     // end of binary operations

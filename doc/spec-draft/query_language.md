@@ -91,6 +91,10 @@ R for time series
 - http://www.statmethods.net/advstats/timeseries.html
 - http://a-little-book-of-r-for-time-series.readthedocs.io/en/latest/index.html
 
+Forecast 
+
+- https://facebookincubator.github.io/prophet/docs/quick_start.html
+
 R with Java
 
 - https://github.com/bedatadriven/renjin

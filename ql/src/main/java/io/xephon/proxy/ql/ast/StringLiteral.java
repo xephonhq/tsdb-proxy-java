@@ -5,10 +5,10 @@ package io.xephon.proxy.ql.ast;
  * <p>
  * String
  */
-public class StringExp extends Exp {
+public class StringLiteral extends Exp {
     public String value;
 
-    public StringExp(String s) {
+    public StringLiteral(String s) {
         value = s;
     }
 }

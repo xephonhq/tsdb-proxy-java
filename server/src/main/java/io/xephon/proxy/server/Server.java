@@ -8,20 +8,20 @@ import java.util.List;
 public class Server {
     public static void main(String[] args) throws Exception {
         System.out.println("e.. I think I am a server");
-        IntegerExp integerExp = new IntegerExp(1);
-        StringExp stringExp = new StringExp("a");
+        IntegerLiteral integerLiteral = new IntegerLiteral(1);
+        StringLiteral stringLiteral = new StringLiteral("a");
         List<Node> nodes = new ArrayList<>();
-        nodes.add(integerExp);
-        nodes.add(stringExp);
+        nodes.add(integerLiteral);
+        nodes.add(stringLiteral);
         for (Node node : nodes) {
             String nodeType = node.getClass().getSimpleName();
             switch (nodeType) {
-                case "IntegerExp":
-                    IntegerExp iexp = (IntegerExp) node;
+                case "IntegerLiteral":
+                    IntegerLiteral iexp = (IntegerLiteral) node;
                     System.out.println(iexp.value);
                     break;
-                case "StringExp":
-                    StringExp sexp = (StringExp) node;
+                case "StringLiteral":
+                    StringLiteral sexp = (StringLiteral) node;
                     System.out.println(sexp.value);
             }
         }
