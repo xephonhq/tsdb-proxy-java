@@ -27,6 +27,8 @@ public class NaiveInterpreter {
     public void evalStatement(Stat stat) {
         if (stat instanceof VarDeclareStat) {
             System.out.println("It's declare");
+            VarDeclareStat declareStat = (VarDeclareStat) stat;
+            declareVar(declareStat.var.name, declareStat.exp);
         } else if (stat instanceof VarAssignStat) {
             System.out.println("It's assign ");
         } else if (stat instanceof ExpStat) {
@@ -34,6 +36,15 @@ public class NaiveInterpreter {
         } else {
             System.err.println("Unknown statement!");
         }
+    }
+
+    public void declareVar(String id, IntegerExp exp) {
+        System.out.println("declare integer expression");
+        integerVariables.put(id, evalExpression(exp));
+    }
+
+    public void declareVar(String id, Exp exp) {
+        System.err.println("I shouldn't be called");
     }
 
     // TODO: may use interface for generic? or IntLiterial and IntExpression should derive from same class
