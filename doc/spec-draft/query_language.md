@@ -59,6 +59,7 @@ From newest to oldest
   - Optimize rules https://github.com/apache/spark/blob/master/sql/catalyst/src/main/scala/org/apache/spark/sql/catalyst/optimizer/expressions.scala
   - SparkQL https://databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html
   - Data frame https://databricks.com/blog/2015/02/17/introducing-dataframes-in-spark-for-large-scale-data-science.html
+  - UDF and code generation http://zeyuanxy.github.io/in_the_code_udf_in_spark_sql/
 - Prometheus
   - PromQL is Turing Complete https://www.robustperception.io/conways-life-in-prometheus/
   - https://prometheus.io/docs/querying/api/
