@@ -20,5 +20,6 @@ public class NaiveInterpreterTest {
         astBuilder.visit(tree);
         NaiveInterpreter interpreter = new NaiveInterpreter();
         interpreter.evalProgram(astBuilder.getStatements());
+        System.out.println(interpreter.resolveInt("a"));
     }
 }

@@ -139,6 +139,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> {
     // start of binary operations
     @Override
     public Node visitAdd(ReikaParser.AddContext ctx) {
+        // TODO: only integer is considered and IntegerBinaryExp may use IntegerExp as its type for lhs and rhs
         return new IntegerBinaryExp(BinaryOperator.ADD,
             (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
     }

@@ -38,17 +38,35 @@ public class NaiveInterpreter {
         }
     }
 
-    public void declareVar(String id, IntegerExp exp) {
-        System.out.println("declare integer expression");
-        integerVariables.put(id, evalExpression(exp));
+    public void declareVar(String id, Exp exp) {
+        if (exp instanceof IntegerExp) {
+            integerVariables.put(id, evalExpression((IntegerExp) exp));
+        }
     }
 
-    public void declareVar(String id, Exp exp) {
-        System.err.println("I shouldn't be called");
+    public Integer resolveInt(String id) {
+        // TODO: throw error if not found
+        return integerVariables.get(id);
     }
 
     // TODO: may use interface for generic? or IntLiterial and IntExpression should derive from same class
     public Integer evalExpression(IntegerExp exp) {
+        if (exp instanceof IntegerLiteral) {
+            return ((IntegerLiteral) exp).value;
+        } else if (exp instanceof IntegerBinaryExp) {
+            IntegerBinaryExp bexp = (IntegerBinaryExp) exp;
+            switch (bexp.operator) {
+                case ADD:
+                    // FIXME: for a correct program, the lhs and rhs is IntegerExp for sure
+                    // and the IntegerBinaryExp class should not use Exp
+                    // TODO: this can't handle when the lhs is variable
+                    return evalExpression((IntegerExp) bexp.l) + evalExpression((IntegerExp) bexp.r);
+                case MULT:
+                    return evalExpression((IntegerExp) bexp.l) * evalExpression((IntegerExp) bexp.r);
+                default:
+                    System.err.printf("can't handler operator %s\n", bexp.operator);
+            }
+        }
         return 0;
     }
 }
