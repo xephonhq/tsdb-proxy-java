@@ -4,6 +4,7 @@ import io.xephon.proxy.ql.parser.ReikaAstBuilder;
 import io.xephon.proxy.ql.parser.ReikaParser;
 import io.xephon.proxy.ql.parser.Util;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -20,6 +21,6 @@ public class NaiveInterpreterTest {
         astBuilder.visit(tree);
         NaiveInterpreter interpreter = new NaiveInterpreter();
         interpreter.evalProgram(astBuilder.getStatements());
-        System.out.println(interpreter.resolveInt("a"));
+        Assert.assertEquals(10, (int) interpreter.resolveInt("a"));
     }
 }

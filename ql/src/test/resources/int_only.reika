@@ -1,8 +1,8 @@
 // this file only have int operation
-// TODO: () and precedence is not supported
+// TODO: () is not supported
 int a = 1;
-int b = a + 1;
-int c = a + b;
+int b = 1 + 1;
+int c = a + 1;
 int d = c * 2;
 a = d + 2 * 3;
 print(a);
