@@ -286,7 +286,12 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             // NOTE: string have add, but does not have minus
             if (lhsType == DataType.INT && rhsType == DataType.INT) {
                 return new IntegerBinaryExp(op, lhs, rhs);
-            } else {
+            } else if (lhsType == DataType.STRING && rhsType == DataType.STRING) {
+                return new StringBinaryExp(op, lhs, rhs);
+            } else if (lhsType == DataType.DOUBLE && rhsType == DataType.DOUBLE) {
+                return new DoubleBinaryExp(op,lhs,rhs);
+            }
+            else {
                 // TODO: see add
                 Symbol symbol = new Symbol(ctx.getStart());
                 throw new IncompatibleBinaryType(symbol, op, lhsType, rhsType);
@@ -301,8 +306,31 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
 
     @Override
     public Node visitMult(ReikaParser.MultContext ctx) {
-        return new IntegerBinaryExp(BinaryOperator.MULT,
-            (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
+        Exp lhs = (Exp) visit(ctx.expr(0));
+        Exp rhs = (Exp) visit(ctx.expr(1));
+        DataType lhsType = DataType.type(lhs);
+        DataType rhsType = DataType.type(rhs);
+        BinaryOperator op = BinaryOperator.MULT;
+        try {
+            //
+            if (lhsType == DataType.INT && rhsType == DataType.INT) {
+                return new IntegerBinaryExp(op, lhs, rhs);
+            } else if (lhsType == DataType.STRING && rhsType == DataType.STRING) {
+                return new StringBinaryExp(op, lhs, rhs);
+            } else if (lhsType == DataType.DOUBLE && rhsType == DataType.DOUBLE) {
+                return new DoubleBinaryExp(op,lhs,rhs);
+            }
+            else {
+                // TODO: see add
+                Symbol symbol = new Symbol(ctx.getStart());
+                throw new IncompatibleBinaryType(symbol, op, lhsType, rhsType);
+            }
+        } catch (IncompatibleBinaryType ex) {
+            recordError(ex);
+            // recovery, return ANY_TYPE
+            // TODO: see add
+            return new AnyExp();
+        }
     }
 
     @Override
