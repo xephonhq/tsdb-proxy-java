@@ -34,6 +34,13 @@ public class ReikaAstBuilderTest {
     }
 
     @Test
+    public void testDouble() throws IOException {
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("double_only.reika");
+        astBuilder.printErrors();
+        assertFalse(astBuilder.hasError());
+    }
+
+    @Test
     public void testSymbolError() throws IOException {
 // NOTE: uncomment the following code to see how java (IDEA) handle symbol error
 //        int a = 1;

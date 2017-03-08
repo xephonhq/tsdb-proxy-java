@@ -1,0 +1,8 @@
+// this file only have double operation
+// TODO: () is not supported
+double a = 1.0;
+double b = 1.0 + 1.0;
+double c = a + 1.0;
+double d = c * 2.0;
+a = d + 2.0 * 3.0;
+print(a);
