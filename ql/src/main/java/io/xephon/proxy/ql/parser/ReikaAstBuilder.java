@@ -257,7 +257,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             } else if (lhsType == DataType.STRING && rhsType == DataType.STRING) {
                 return new StringBinaryExp(op, lhs, rhs);
             } else if (lhsType == DataType.DOUBLE && rhsType == DataType.DOUBLE) {
-                return new DoubleBinaryExp(op,lhs,rhs);
+                return new DoubleBinaryExp(op, lhs, rhs);
             } else {
                 // TODO: actually symbol is used for variable and functions, we just need the line and column here
                 // maybe there should be another data type for tracking line number and column only
@@ -286,12 +286,9 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             // NOTE: string have add, but does not have minus
             if (lhsType == DataType.INT && rhsType == DataType.INT) {
                 return new IntegerBinaryExp(op, lhs, rhs);
-            } else if (lhsType == DataType.STRING && rhsType == DataType.STRING) {
-                return new StringBinaryExp(op, lhs, rhs);
             } else if (lhsType == DataType.DOUBLE && rhsType == DataType.DOUBLE) {
-                return new DoubleBinaryExp(op,lhs,rhs);
-            }
-            else {
+                return new DoubleBinaryExp(op, lhs, rhs);
+            } else {
                 // TODO: see add
                 Symbol symbol = new Symbol(ctx.getStart());
                 throw new IncompatibleBinaryType(symbol, op, lhsType, rhsType);
@@ -315,12 +312,9 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             //
             if (lhsType == DataType.INT && rhsType == DataType.INT) {
                 return new IntegerBinaryExp(op, lhs, rhs);
-            } else if (lhsType == DataType.STRING && rhsType == DataType.STRING) {
-                return new StringBinaryExp(op, lhs, rhs);
             } else if (lhsType == DataType.DOUBLE && rhsType == DataType.DOUBLE) {
-                return new DoubleBinaryExp(op,lhs,rhs);
-            }
-            else {
+                return new DoubleBinaryExp(op, lhs, rhs);
+            } else {
                 // TODO: see add
                 Symbol symbol = new Symbol(ctx.getStart());
                 throw new IncompatibleBinaryType(symbol, op, lhsType, rhsType);
@@ -344,12 +338,9 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             //
             if (lhsType == DataType.INT && rhsType == DataType.INT) {
                 return new IntegerBinaryExp(op, lhs, rhs);
-            } else if (lhsType == DataType.STRING && rhsType == DataType.STRING) {
-                return new StringBinaryExp(op, lhs, rhs);
             } else if (lhsType == DataType.DOUBLE && rhsType == DataType.DOUBLE) {
-                return new DoubleBinaryExp(op,lhs,rhs);
-            }
-            else {
+                return new DoubleBinaryExp(op, lhs, rhs);
+            } else {
                 // TODO: see add
                 Symbol symbol = new Symbol(ctx.getStart());
                 throw new IncompatibleBinaryType(symbol, op, lhsType, rhsType);
