@@ -6,7 +6,7 @@ package io.xephon.proxy.ql.ast;
  * Integer value
  */
 public class IntegerLiteral extends IntegerExp {
-    public int value;
+    public final int value;
 
     public IntegerLiteral(int n) {
         value = n;

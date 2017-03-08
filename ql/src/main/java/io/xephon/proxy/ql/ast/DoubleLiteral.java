@@ -6,7 +6,7 @@ package io.xephon.proxy.ql.ast;
  * Double value
  */
 public class DoubleLiteral extends DoubleExp {
-    public double value;
+    public final double value;
 
     public DoubleLiteral(double n) {
         value = n;
