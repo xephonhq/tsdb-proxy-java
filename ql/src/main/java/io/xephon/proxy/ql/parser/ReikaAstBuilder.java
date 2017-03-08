@@ -256,6 +256,8 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
                 return new IntegerBinaryExp(op, lhs, rhs);
             } else if (lhsType == DataType.STRING && rhsType == DataType.STRING) {
                 return new StringBinaryExp(op, lhs, rhs);
+            } else if (lhsType == DataType.DOUBLE && rhsType == DataType.DOUBLE) {
+                return new DoubleBinaryExp(op,lhs,rhs);
             } else {
                 // TODO: actually symbol is used for variable and functions, we just need the line and column here
                 // maybe there should be another data type for tracking line number and column only
