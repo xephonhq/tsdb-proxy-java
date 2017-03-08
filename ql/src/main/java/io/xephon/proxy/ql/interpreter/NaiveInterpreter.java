@@ -16,10 +16,12 @@ import java.util.Map;
 public class NaiveInterpreter implements Loggable {
     private Map<String, Integer> integerVariables;
     private Map<String, String> stringVariables;
+    private Map<String,Double> doubleVariables;
 
     public NaiveInterpreter() {
         integerVariables = new HashMap<>();
         stringVariables = new HashMap<>();
+        doubleVariables = new HashMap<>();
     }
 
     public void evalProgram(List<Stat> statements) {
@@ -51,6 +53,8 @@ public class NaiveInterpreter implements Loggable {
             integerVariables.put(id, evalExpression((IntegerExp) exp));
         } else if (exp instanceof StringExp) {
             stringVariables.put(id, evalExpression((StringExp) exp));
+        } else if (exp instanceof DoubleExp) {
+            doubleVariables.put(id, evalExpression((DoubleExp) exp));
         }
     }
 
@@ -59,6 +63,8 @@ public class NaiveInterpreter implements Loggable {
             integerVariables.put(id, evalExpression((IntegerExp) exp));
         } else if (exp instanceof StringExp) {
             stringVariables.put(id, evalExpression((StringExp) exp));
+        } else if (exp instanceof DoubleExp) {
+            doubleVariables.put(id, evalExpression((DoubleExp) exp));
         }
     }
 
@@ -67,6 +73,13 @@ public class NaiveInterpreter implements Loggable {
             throw new ReikaRuntimeException(String.format("int variable %s not found", id));
         }
         return integerVariables.get(id);
+    }
+
+    public Double resolveDouble(String id) {
+        if (!doubleVariables.containsKey(id)) {
+            throw new ReikaRuntimeException(String.format("double variable %s not found", id));
+        }
+        return doubleVariables.get(id);
     }
 
     public String resolveString(String id) {
@@ -141,5 +154,39 @@ public class NaiveInterpreter implements Loggable {
         }
         // TODO: toString of the expression?
         throw new ReikaRuntimeException("Unknown type of integer expression");
+    }
+
+    public Double evalExpression(DoubleExp exp) {
+        if (exp instanceof DoubleLiteral) {
+            return ((DoubleLiteral) exp).value;
+        } else if (exp instanceof DoubleBinaryExp) {
+            DoubleBinaryExp bexp = (DoubleBinaryExp) exp;
+            Double l, r;
+            if (bexp.l instanceof VariableExp) {
+                l = resolveDouble(((VariableExp) bexp.l).name);
+            } else {
+                l = evalExpression((DoubleExp) bexp.l);
+            }
+            if (bexp.r instanceof VariableExp) {
+                r = resolveDouble(((VariableExp) bexp.r).name);
+            } else {
+                r = evalExpression((DoubleExp) bexp.r);
+            }
+            switch (bexp.operator) {
+                case ADD:
+                    return l + r;
+                case MINUS:
+                    return l - r;
+                case MULT:
+                    return l * r;
+                case DIV:
+                    // TODO: handle divide by zero exception
+                    return l / r;
+                default:
+                    throw new ReikaRuntimeException(String.format("Operator %s is not supported for double expression", bexp.operator));
+            }
+        }
+        // TODO: toString of the expression?
+        throw new ReikaRuntimeException("Unknown type of double expression");
     }
 }
