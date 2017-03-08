@@ -74,7 +74,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     }
 
     public void printErrors() {
-        // TODO: maybe print error abstract here, or add a print error abstract method
+        System.out.println(errorAbstract());
         for (ReikaException ex : allExceptions) {
             System.out.println(ex.getMessage());
         }

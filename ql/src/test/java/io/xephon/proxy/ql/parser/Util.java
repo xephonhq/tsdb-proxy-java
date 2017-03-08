@@ -1,7 +1,9 @@
 package io.xephon.proxy.ql.parser;
 
+import io.xephon.proxy.ql.checker.SymbolTable;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,5 +27,14 @@ public class Util {
         ReikaParser parser = new ReikaParser(tokens);
         is.close();
         return parser;
+    }
+
+    // FIXME: this builder actually also contains the result .... contains too much responsibility
+    public static ReikaAstBuilder astBuilderFromResource(String fileName) throws IOException {
+        ReikaParser parser = Util.parserFromResource(fileName);
+        ParseTree tree = parser.prog();
+        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
+        astBuilder.visit(tree);
+        return astBuilder;
     }
 }

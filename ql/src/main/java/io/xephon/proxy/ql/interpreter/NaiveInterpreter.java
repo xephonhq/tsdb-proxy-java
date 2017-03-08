@@ -3,7 +3,6 @@ package io.xephon.proxy.ql.interpreter;
 import io.xephon.proxy.common.Loggable;
 import io.xephon.proxy.ql.ReikaRuntimeException;
 import io.xephon.proxy.ql.ast.*;
-import org.stringtemplate.v4.ST;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,9 +1,7 @@
 package io.xephon.proxy.ql.interpreter;
 
 import io.xephon.proxy.ql.parser.ReikaAstBuilder;
-import io.xephon.proxy.ql.parser.ReikaParser;
 import io.xephon.proxy.ql.parser.Util;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import static org.junit.Assert.*;
 
@@ -17,10 +15,7 @@ import org.junit.Test;
 public class NaiveInterpreterTest {
     @Test
     public void testInt() throws Exception {
-        ReikaParser parser = Util.parserFromResource("int_only.reika");
-        ParseTree tree = parser.prog();
-        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
-        astBuilder.visit(tree);
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("int_only.reika");
 //        astBuilder.printErrors();
         assertFalse(astBuilder.hasError());
         NaiveInterpreter interpreter = new NaiveInterpreter();
@@ -30,10 +25,7 @@ public class NaiveInterpreterTest {
 
     @Test
     public void testString() throws Exception {
-        ReikaParser parser = Util.parserFromResource("int_string.reika");
-        ParseTree tree = parser.prog();
-        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
-        astBuilder.visit(tree);
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("int_string.reika");
 //        astBuilder.printErrors();
         assertFalse(astBuilder.hasError());
         NaiveInterpreter interpreter = new NaiveInterpreter();

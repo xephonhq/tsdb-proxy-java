@@ -28,12 +28,9 @@ public class ReikaAstBuilderTest {
 
     @Test
     public void testInt() throws IOException {
-        ReikaParser parser = Util.parserFromResource("int_only.reika");
-        ParseTree tree = parser.prog();
-        ReikaBaseVisitor baseVisitor = new ReikaBaseVisitor();
-        baseVisitor.visit(tree);
-        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
-        astBuilder.visit(tree);
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("int_only.reika");
+        astBuilder.printErrors();
+        assertFalse(astBuilder.hasError());
     }
 
     @Test
@@ -44,45 +41,29 @@ public class ReikaAstBuilderTest {
 //        b = 3; // undefined identifier
 //        int c = d + 1; // undefined identifier
 //        int e = b + c; // TODO: if we have recover, then only b should be reported
-        ReikaParser parser = Util.parserFromResource("error_symbol.reika");
-        ParseTree tree = parser.prog();
-        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
-        astBuilder.visit(tree);
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("error_symbol.reika");
         assertTrue(astBuilder.hasError());
-        System.out.println(astBuilder.errorAbstract());
         astBuilder.printErrors();
     }
 
     @Test
     public void testTypeError() throws IOException {
-        ReikaParser parser = Util.parserFromResource("error_type.reika");
-        ParseTree tree = parser.prog();
-        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
-        astBuilder.visit(tree);
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("error_type.reika");
         assertTrue(astBuilder.hasError());
-        System.out.println(astBuilder.errorAbstract());
         astBuilder.printErrors();
     }
 
     @Test
     public void testRecoveryDeclarationDuplication() throws IOException {
-        ReikaParser parser = Util.parserFromResource("recovery_declare_dup.reika");
-        ParseTree tree = parser.prog();
-        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
-        astBuilder.visit(tree);
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("recovery_declare_dup.reika");
         assertTrue(astBuilder.hasError());
-        System.out.println(astBuilder.errorAbstract());
         astBuilder.printErrors();
     }
 
     @Test
     public void testRecoveryUndefinedAssign() throws IOException {
-        ReikaParser parser = Util.parserFromResource("recovery_undefined_assign.reika");
-        ParseTree tree = parser.prog();
-        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
-        astBuilder.visit(tree);
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("recovery_undefined_assign.reika");
         assertTrue(astBuilder.hasError());
-        System.out.println(astBuilder.errorAbstract());
         astBuilder.printErrors();
     }
 }
