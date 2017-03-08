@@ -14,6 +14,7 @@ public class IncompatibleBinaryType extends ReikaException {
     private DataType rhsType;
 
     public IncompatibleBinaryType(Symbol s, BinaryOperator op, DataType l, DataType r) {
+        super(String.format("%d:%d can't %s %s with %s", s.line, s.column, op, l, r));
         symbol = s;
         operator = op;
         lhsType = l;
