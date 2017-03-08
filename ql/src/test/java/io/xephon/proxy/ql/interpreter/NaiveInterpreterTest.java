@@ -33,4 +33,15 @@ public class NaiveInterpreterTest {
         assertEquals(2, (int) interpreter.resolveInt("b"));
         assertEquals("hahanaive", interpreter.resolveString("jj"));
     }
+
+    @Test
+    public void testDouble() throws Exception {
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("double_only.reika");
+//        astBuilder.printErrors();
+        assertFalse(astBuilder.hasError());
+        NaiveInterpreter interpreter = new NaiveInterpreter();
+        interpreter.evalProgram(astBuilder.getStatements());
+        assertEquals(10.0, (double) interpreter.resolveDouble("a"),0.0);
+    }
+
 }
