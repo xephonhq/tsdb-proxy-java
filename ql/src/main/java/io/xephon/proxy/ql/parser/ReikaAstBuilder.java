@@ -114,8 +114,8 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             symbolTable.add(varSymbol);
         } catch (DuplicateDeclarationException ex) {
             recordError(ex);
-            logger().error(ex.getMessage());
             // recovery, the latest type replace the old one to reduce following errors
+            logger().trace("recovery from duplicate declaration by replacing the old symbol with new ");
             symbolTable.replace(varSymbol);
         }
         VariableExp var = new VariableExp(varToken.getText(), varType);
@@ -156,9 +156,11 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         // TODO: this is actually type inference
         if (varDeclareSymbol == null) {
             // TODO: is using ANY_TYPE or NO_TYPE a better idea?
+            logger().trace("recover from undefined id when assign by using type of rhs");
             varType = rhsType;
             varUsageSymbol.type = varType;
             try {
+                logger().trace("recover from undefined id when assign II by adding symbol to table");
                 symbolTable.add(varUsageSymbol);
             } catch (DuplicateDeclarationException ex) {
                 throw new ReikaRuntimeException(
