@@ -33,7 +33,9 @@ public enum DataType {
     }
 
     public static DataType type(Exp exp) {
-        if (exp instanceof IntegerExp) {
+        if (exp instanceof VariableExp) {
+            return ((VariableExp) exp).type;
+        } else if (exp instanceof IntegerExp) {
             return INT;
         } else if (exp instanceof DoubleExp) {
             return DOUBLE;

@@ -21,10 +21,10 @@ public class NaiveInterpreterTest {
         ParseTree tree = parser.prog();
         ReikaAstBuilder astBuilder = new ReikaAstBuilder();
         astBuilder.visit(tree);
-        astBuilder.printErrors();
+//        astBuilder.printErrors();
         assertFalse(astBuilder.hasError());
-//        NaiveInterpreter interpreter = new NaiveInterpreter();
-//        interpreter.evalProgram(astBuilder.getStatements());
-//        assertEquals(10, (int) interpreter.resolveInt("a"));
+        NaiveInterpreter interpreter = new NaiveInterpreter();
+        interpreter.evalProgram(astBuilder.getStatements());
+        assertEquals(10, (int) interpreter.resolveInt("a"));
     }
 }

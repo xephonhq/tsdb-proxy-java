@@ -215,8 +215,8 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             type = symbol.type;
         } catch (UndefinedIdentifierException ex) {
             recordError(ex);
-            // TODO: recover, it is called when expression contains variables, if I put it into symbol table, the undefined exception would
-            // show up only once
+            // TODO: recover, this function is called when expression contains variables,
+            // if I create one with ANY_TYPE and put it into symbol table, the undefined exception would show up only once
             // NOTE: I think even if we don't recover, following visit can also moves on
             type = DataType.ANY_TYPE;
         }
@@ -241,21 +241,21 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     // start of binary operations
     @Override
     public Node visitAdd(ReikaParser.AddContext ctx) {
-        // TODO: only integer is considered and IntegerBinaryExp may use IntegerExp as its type for lhs and rhs
         Exp lhs = (Exp) visit(ctx.expr(0));
         Exp rhs = (Exp) visit(ctx.expr(1));
         DataType lhsType = DataType.type(lhs);
         DataType rhsType = DataType.type(rhs);
+        BinaryOperator op = BinaryOperator.ADD;
         try {
             if (lhsType == DataType.INT && rhsType == DataType.INT) {
-                return new IntegerBinaryExp(BinaryOperator.ADD, lhs, rhs);
+                return new IntegerBinaryExp(op, lhs, rhs);
             } else if (lhsType == DataType.STRING && rhsType == DataType.STRING) {
-                return new StringBinaryExp(BinaryOperator.ADD, lhs, rhs);
+                return new StringBinaryExp(op, lhs, rhs);
             } else {
-                // TODO: actually symbol is used for variable and functions,
+                // TODO: actually symbol is used for variable and functions, we just need the line and column here
                 // maybe there should be another data type for tracking line number and column only
                 Symbol symbol = new Symbol(ctx.getStart());
-                throw new IncompatibleBinaryType(symbol, BinaryOperator.ADD, lhsType, rhsType);
+                throw new IncompatibleBinaryType(symbol, op, lhsType, rhsType);
             }
         } catch (IncompatibleBinaryType ex) {
             recordError(ex);
@@ -265,10 +265,30 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         }
     }
 
+    /**
+     * @TODO the code is really duplicated with visitAdd
+     */
     @Override
     public Node visitMinus(ReikaParser.MinusContext ctx) {
-        return new IntegerBinaryExp(BinaryOperator.MINUS,
-            (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
+        Exp lhs = (Exp) visit(ctx.expr(0));
+        Exp rhs = (Exp) visit(ctx.expr(1));
+        DataType lhsType = DataType.type(lhs);
+        DataType rhsType = DataType.type(rhs);
+        BinaryOperator op = BinaryOperator.MINUS;
+        try {
+            if (lhsType == DataType.INT && rhsType == DataType.INT) {
+                return new IntegerBinaryExp(op, lhs, rhs);
+            } else {
+                // TODO: see add
+                Symbol symbol = new Symbol(ctx.getStart());
+                throw new IncompatibleBinaryType(symbol, op, lhsType, rhsType);
+            }
+        } catch (IncompatibleBinaryType ex) {
+            recordError(ex);
+            // recovery, return ANY_TYPE
+            // TODO: see add
+            return new AnyExp();
+        }
     }
 
     @Override
