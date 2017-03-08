@@ -58,6 +58,8 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             typeExceptions.add(ex);
         } else if (ex instanceof IncompatibleAssignType) {
             typeExceptions.add(ex);
+        } else if (ex instanceof IncompatibleBinaryType) {
+            typeExceptions.add(ex);
         } else {
             throw new ReikaRuntimeException("un categorized exception", ex);
         }
@@ -185,6 +187,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     public Node visitExprStat(ReikaParser.ExprStatContext ctx) {
         logger().trace("visit expr statement");
         // NOTE: itself don't need to resolve symbol, it the expression it need to do these
+        // TODO: should we only allow call exp? though I think we should return 2 as the eval result when we have 1 + 1
         return new ExpStat((Exp) visit(ctx.expr()));
     }
     // end of statements
@@ -206,14 +209,16 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
 
     @Override
     public Node visitVariable(ReikaParser.VariableContext ctx) {
-        DataType type = DataType.UNDEFINED_TYPE;
+        DataType type;
         try {
             Symbol symbol = symbolTable.resolve(ctx.ID().getSymbol());
             type = symbol.type;
         } catch (UndefinedIdentifierException ex) {
-            // TODO: it seems this can't not be recovered, visitVariable is only called by ExprStat
             recordError(ex);
-            logger().error(ex.getMessage());
+            // TODO: recover, it is called when expression contains variables, if I put it into symbol table, the undefined exception would
+            // show up only once
+            // NOTE: I think even if we don't recover, following visit can also moves on
+            type = DataType.ANY_TYPE;
         }
         return new VariableExp(ctx.getText(), type);
     }
@@ -237,8 +242,27 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     @Override
     public Node visitAdd(ReikaParser.AddContext ctx) {
         // TODO: only integer is considered and IntegerBinaryExp may use IntegerExp as its type for lhs and rhs
-        return new IntegerBinaryExp(BinaryOperator.ADD,
-            (Exp) visit(ctx.expr(0)), (Exp) visit(ctx.expr(1)));
+        Exp lhs = (Exp) visit(ctx.expr(0));
+        Exp rhs = (Exp) visit(ctx.expr(1));
+        DataType lhsType = DataType.type(lhs);
+        DataType rhsType = DataType.type(rhs);
+        try {
+            if (lhsType == DataType.INT && rhsType == DataType.INT) {
+                return new IntegerBinaryExp(BinaryOperator.ADD, lhs, rhs);
+            } else if (lhsType == DataType.STRING && rhsType == DataType.STRING) {
+                return new StringBinaryExp(BinaryOperator.ADD, lhs, rhs);
+            } else {
+                // TODO: actually symbol is used for variable and functions,
+                // maybe there should be another data type for tracking line number and column only
+                Symbol symbol = new Symbol(ctx.getStart());
+                throw new IncompatibleBinaryType(symbol, BinaryOperator.ADD, lhsType, rhsType);
+            }
+        } catch (IncompatibleBinaryType ex) {
+            recordError(ex);
+            // recovery, return ANY_TYPE
+            // TODO: need to change the type check in previous declare and assign
+            return new AnyExp();
+        }
     }
 
     @Override
