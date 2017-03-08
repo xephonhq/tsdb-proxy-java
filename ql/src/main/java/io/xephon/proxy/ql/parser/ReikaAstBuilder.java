@@ -276,6 +276,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         DataType rhsType = DataType.type(rhs);
         BinaryOperator op = BinaryOperator.MINUS;
         try {
+            // NOTE: string have add, but does not have minus
             if (lhsType == DataType.INT && rhsType == DataType.INT) {
                 return new IntegerBinaryExp(op, lhs, rhs);
             } else {

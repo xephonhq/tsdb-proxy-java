@@ -3,6 +3,7 @@ package io.xephon.proxy.ql.interpreter;
 import io.xephon.proxy.common.Loggable;
 import io.xephon.proxy.ql.ReikaRuntimeException;
 import io.xephon.proxy.ql.ast.*;
+import org.stringtemplate.v4.ST;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.Map;
  */
 public class NaiveInterpreter implements Loggable {
     private Map<String, Integer> integerVariables;
+    private Map<String, String> stringVariables;
 
     public NaiveInterpreter() {
         integerVariables = new HashMap<>();
+        stringVariables = new HashMap<>();
     }
 
     public void evalProgram(List<Stat> statements) {
@@ -47,22 +50,57 @@ public class NaiveInterpreter implements Loggable {
     public void declareVar(String id, Exp exp) {
         if (exp instanceof IntegerExp) {
             integerVariables.put(id, evalExpression((IntegerExp) exp));
+        } else if (exp instanceof StringExp) {
+            stringVariables.put(id, evalExpression((StringExp) exp));
         }
     }
 
     public void assignVar(String id, Exp exp) {
         if (exp instanceof IntegerExp) {
             integerVariables.put(id, evalExpression((IntegerExp) exp));
+        } else if (exp instanceof StringExp) {
+            stringVariables.put(id, evalExpression((StringExp) exp));
         }
     }
 
     public Integer resolveInt(String id) {
-        // TODO: throw error if not found
+        if (!integerVariables.containsKey(id)) {
+            throw new ReikaRuntimeException(String.format("int variable %s not found", id));
+        }
         return integerVariables.get(id);
     }
 
-    public String evalExpression(StringLiteral exp) {
-        return exp.value;
+    public String resolveString(String id) {
+        if (!stringVariables.containsKey(id)) {
+            throw new ReikaRuntimeException(String.format("string variable %s not found", id));
+        }
+        return stringVariables.get(id);
+    }
+
+    public String evalExpression(StringExp exp) {
+        if (exp instanceof StringLiteral) {
+            return ((StringLiteral) exp).value;
+        } else if (exp instanceof StringBinaryExp) {
+            // sbexp stands for string binary expression -.-
+            StringBinaryExp sbexp = (StringBinaryExp) exp;
+            if (sbexp.operator != BinaryOperator.ADD) {
+                throw new ReikaRuntimeException(String.format("string only support add but found %s", sbexp.operator));
+            }
+            String l, r;
+            if (sbexp.l instanceof VariableExp) {
+                l = resolveString(((VariableExp) sbexp.l).name);
+            } else {
+                l = evalExpression((StringExp) sbexp.l);
+            }
+            if (sbexp.r instanceof VariableExp) {
+                r = resolveString(((VariableExp) sbexp.r).name);
+            } else {
+                r = evalExpression((StringExp) sbexp.r);
+            }
+            // we only have add
+            return l + r;
+        }
+        throw new ReikaRuntimeException("Unknown type of string expression");
     }
 
     public Object evalExpression(VariableExp exp) {

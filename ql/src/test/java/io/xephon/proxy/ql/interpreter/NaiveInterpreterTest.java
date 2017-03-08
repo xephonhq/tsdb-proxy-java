@@ -27,4 +27,18 @@ public class NaiveInterpreterTest {
         interpreter.evalProgram(astBuilder.getStatements());
         assertEquals(10, (int) interpreter.resolveInt("a"));
     }
+
+    @Test
+    public void testString() throws Exception {
+        ReikaParser parser = Util.parserFromResource("int_string.reika");
+        ParseTree tree = parser.prog();
+        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
+        astBuilder.visit(tree);
+//        astBuilder.printErrors();
+        assertFalse(astBuilder.hasError());
+        NaiveInterpreter interpreter = new NaiveInterpreter();
+        interpreter.evalProgram(astBuilder.getStatements());
+        assertEquals(2, (int) interpreter.resolveInt("b"));
+        assertEquals("hahanaive", interpreter.resolveString("jj"));
+    }
 }

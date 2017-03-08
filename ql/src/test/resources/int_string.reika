@@ -1,0 +1,6 @@
+// int and string operations
+int a = 1;
+int b = a + 1;
+string jack = "haha";
+string jimmy = "naive";
+string jj = jack + jimmy;
