@@ -200,6 +200,11 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     }
 
     @Override
+    public Node visitDouble(ReikaParser.DoubleContext ctx) {
+        return new DoubleLiteral(Double.parseDouble(ctx.DOUBLE().getText()));
+    }
+
+    @Override
     public Node visitString(ReikaParser.StringContext ctx) {
         String s = ctx.STRING().getText();
         // trim the quote mark
