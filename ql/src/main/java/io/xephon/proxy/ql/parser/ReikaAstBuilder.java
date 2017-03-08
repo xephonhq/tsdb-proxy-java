@@ -2,6 +2,7 @@ package io.xephon.proxy.ql.parser;
 
 import io.xephon.proxy.common.Loggable;
 import io.xephon.proxy.ql.ReikaException;
+import io.xephon.proxy.ql.ReikaRuntimeException;
 import io.xephon.proxy.ql.ast.*;
 import io.xephon.proxy.ql.checker.*;
 import org.antlr.v4.runtime.Token;
@@ -55,8 +56,11 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             symbolExceptions.add(ex);
         } else if (ex instanceof IncompatibleDeclarationType) {
             typeExceptions.add(ex);
+        } else if (ex instanceof IncompatibleAssignType) {
+            typeExceptions.add(ex);
+        } else {
+            throw new ReikaRuntimeException("un categorized exception", ex);
         }
-        // TODO: other exceptions
     }
 
     public boolean hasError() {
@@ -68,6 +72,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     }
 
     public void printErrors() {
+        // TODO: maybe print error abstract here, or add a print error abstract method
         for (ReikaException ex : allExceptions) {
             System.out.println(ex.getMessage());
         }
@@ -123,7 +128,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             }
         } catch (IncompatibleDeclarationType ex) {
             recordError(ex);
-            // no need to recovery, the variable just use the type it is declared as
+            // recovery: do nothing, the variable just use the type it is declared as
         }
         return new VarDeclareStat(var, rhs);
     }
@@ -132,20 +137,46 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     public Node visitVarAssignStat(ReikaParser.VarAssignStatContext ctx) {
         logger().trace("visit var assign statement");
         ReikaParser.VarAssignContext assignContext = ctx.varAssign();
-        Token id = assignContext.ID().getSymbol();
-        DataType type = DataType.UNDEFINED_TYPE;
+        Token varToken = assignContext.ID().getSymbol();
+        DataType varType = DataType.UNDEFINED_TYPE;
+        Symbol varUsageSymbol = new Symbol(varToken, varType);
+        Symbol varDeclareSymbol = null;
         try {
-            Symbol symbol = symbolTable.resolve(id);
-            type = symbol.type;
-            // TODO: check if the assign is type compatible
+            // the variable is declared before
+            varDeclareSymbol = symbolTable.resolve(varToken);
+            varType = varDeclareSymbol.type;
+            varUsageSymbol.type = varType;
         } catch (UndefinedIdentifierException ex) {
-            // TODO: how to recovery from it, a symbol as undefined into it?
-            // or induct the type from rhs
             recordError(ex);
-            logger().error(ex.getMessage());
+            // recover is in following
         }
-        VariableExp var = new VariableExp(id.getText(), type);
-        return new VarAssignStat(var, (Exp) visit(assignContext.expr()));
+        Exp rhs = (Exp) visit(assignContext.expr());
+        DataType rhsType = DataType.type(rhs);
+        // recover from undefined identifier, use type of rhs
+        // TODO: this is actually type inference
+        if (varDeclareSymbol == null) {
+            // TODO: is using ANY_TYPE or NO_TYPE a better idea?
+            varType = rhsType;
+            varUsageSymbol.type = varType;
+            try {
+                symbolTable.add(varUsageSymbol);
+            } catch (DuplicateDeclarationException ex) {
+                throw new ReikaRuntimeException(
+                    "should not happen unless there is concurrent access to symbol table", ex); // or I wrote the wrong code
+            }
+        } else {
+            try {
+                if (varUsageSymbol.type != rhsType) {
+                    throw new IncompatibleAssignType(varUsageSymbol, varType, rhsType, varDeclareSymbol);
+                }
+            } catch (IncompatibleAssignType ex) {
+                recordError(ex);
+                // recovery: do nothing, the variable just use the type it is declared as
+                // TODO: need to keep consistency for error recovery, but I am kind of lost now
+            }
+        }
+        VariableExp var = new VariableExp(varToken.getText(), varType);
+        return new VarAssignStat(var, rhs);
     }
 
     @Override

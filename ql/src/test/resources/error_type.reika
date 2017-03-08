@@ -1,3 +1,5 @@
 // type checking
 // TODO: actually this kind of check can be done by antlr by spliting expression of different types
 int a = "string";
+int b = 1;
+b = "string";

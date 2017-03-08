@@ -1,0 +1,3 @@
+int a = 1;
+string a = "s";
+a = "ss"; // this should not be reported as error

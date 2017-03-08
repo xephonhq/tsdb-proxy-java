@@ -63,4 +63,26 @@ public class ReikaAstBuilderTest {
         System.out.println(astBuilder.errorAbstract());
         astBuilder.printErrors();
     }
+
+    @Test
+    public void testRecoveryDeclarationDuplication() throws IOException {
+        ReikaParser parser = Util.parserFromResource("recovery_declare_dup.reika");
+        ParseTree tree = parser.prog();
+        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
+        astBuilder.visit(tree);
+        assertTrue(astBuilder.hasError());
+        System.out.println(astBuilder.errorAbstract());
+        astBuilder.printErrors();
+    }
+
+    @Test
+    public void testRecoveryUndefinedAssign() throws IOException {
+        ReikaParser parser = Util.parserFromResource("recovery_undefined_assign.reika");
+        ParseTree tree = parser.prog();
+        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
+        astBuilder.visit(tree);
+        assertTrue(astBuilder.hasError());
+        System.out.println(astBuilder.errorAbstract());
+        astBuilder.printErrors();
+    }
 }

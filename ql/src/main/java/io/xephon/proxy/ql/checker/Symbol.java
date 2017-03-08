@@ -11,6 +11,7 @@ public class Symbol {
     public final Integer line;
     public final Integer column;
     // TODO: what about function? just ignore it by now ...
+    // NOTE: it should not be final
     public DataType type;
 
     public Symbol(Token token) {
