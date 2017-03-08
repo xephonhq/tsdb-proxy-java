@@ -53,7 +53,14 @@ public class ReikaAstBuilderTest {
         astBuilder.printErrors();
     }
 
-    public void testTypeAssignOnly() throws IOException {
-
+    @Test
+    public void testTypeError() throws IOException {
+        ReikaParser parser = Util.parserFromResource("error_type.reika");
+        ParseTree tree = parser.prog();
+        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
+        astBuilder.visit(tree);
+        assertTrue(astBuilder.hasError());
+        System.out.println(astBuilder.errorAbstract());
+        astBuilder.printErrors();
     }
 }

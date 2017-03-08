@@ -11,7 +11,7 @@ public class UndefinedIdentifierException extends ReikaException {
     public final Symbol symbol;
 
     public UndefinedIdentifierException(Symbol symbol) {
-        super(String.format("%s on %d,%d is undefined", symbol.id, symbol.line, symbol.column));
+        super(String.format("%d:%d %s is undefined", symbol.line, symbol.column, symbol.id));
         this.symbol = symbol;
     }
 }

@@ -3,10 +3,7 @@ package io.xephon.proxy.ql.parser;
 import io.xephon.proxy.common.Loggable;
 import io.xephon.proxy.ql.ReikaException;
 import io.xephon.proxy.ql.ast.*;
-import io.xephon.proxy.ql.checker.DuplicateDeclarationException;
-import io.xephon.proxy.ql.checker.Symbol;
-import io.xephon.proxy.ql.checker.SymbolTable;
-import io.xephon.proxy.ql.checker.UndefinedIdentifierException;
+import io.xephon.proxy.ql.checker.*;
 import org.antlr.v4.runtime.Token;
 
 import java.util.ArrayList;
@@ -56,9 +53,10 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             symbolExceptions.add(ex);
         } else if (ex instanceof UndefinedIdentifierException) {
             symbolExceptions.add(ex);
-        } else {
-            // TODO: fill it when have time
+        } else if (ex instanceof IncompatibleDeclarationType) {
+            typeExceptions.add(ex);
         }
+        // TODO: other exceptions
     }
 
     public boolean hasError() {
@@ -91,24 +89,43 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         return null;
     }
 
+    /**
+     * There are two types of error when visit declaration statement
+     * <p>
+     * 1. Symbol, duplicate declaration
+     * - recovery, over write the old one
+     * 2. type, rhs has different type with the variable
+     * - recovery, do nothing, just keep the type in lhs
+     */
     @Override
     public Node visitVarDeclareStat(ReikaParser.VarDeclareStatContext ctx) {
         logger().trace("visit var declare statement");
         ReikaParser.VarDeclareContext declareContext = ctx.varDeclare();
-        DataType type = DataType.type(declareContext.type());
-        Token id = declareContext.ID().getSymbol();
-        // declare the variable check if it is already defined
+        DataType varType = DataType.type(declareContext.type());
+        Token varToken = declareContext.ID().getSymbol();
+        Symbol varSymbol = new Symbol(varToken, varType);
+        // check if it is already declared
         try {
-            symbolTable.add(type, id);
+            symbolTable.add(varSymbol);
         } catch (DuplicateDeclarationException ex) {
             recordError(ex);
             logger().error(ex.getMessage());
-            // TODO: recovery, in this case, the type should be changed to the newest declaration
+            // recovery, the latest type replace the old one to reduce following errors
+            symbolTable.replace(varSymbol);
         }
-        VariableExp var = new VariableExp(id.getText(), type);
-        // TODO: check the type of right hand side
-
-        return new VarDeclareStat(var, (Exp) visit(declareContext.expr()));
+        VariableExp var = new VariableExp(varToken.getText(), varType);
+        Exp rhs = (Exp) visit(declareContext.expr());
+        // check type
+        DataType rhsType = DataType.type(rhs);
+        try {
+            if (varType != rhsType) {
+                throw new IncompatibleDeclarationType(varSymbol, varType, rhsType);
+            }
+        } catch (IncompatibleDeclarationType ex) {
+            recordError(ex);
+            // no need to recovery, the variable just use the type it is declared as
+        }
+        return new VarDeclareStat(var, rhs);
     }
 
     @Override

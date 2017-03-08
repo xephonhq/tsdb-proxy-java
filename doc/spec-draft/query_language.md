@@ -60,6 +60,8 @@ From newest to oldest
   - SparkQL https://databricks.com/blog/2015/04/13/deep-dive-into-spark-sqls-catalyst-optimizer.html
   - Data frame https://databricks.com/blog/2015/02/17/introducing-dataframes-in-spark-for-large-scale-data-science.html
   - UDF and code generation http://zeyuanxy.github.io/in_the_code_udf_in_spark_sql/
+- Heroic
+  - https://github.com/spotify/heroic/tree/master/heroic-component/src/main/java/com/spotify/heroic/grammar
 - Prometheus
   - PromQL is Turing Complete https://www.robustperception.io/conways-life-in-prometheus/
   - https://prometheus.io/docs/querying/api/

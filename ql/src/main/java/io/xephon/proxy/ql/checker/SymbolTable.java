@@ -1,6 +1,7 @@
 package io.xephon.proxy.ql.checker;
 
 import io.xephon.proxy.ql.ReikaException;
+import io.xephon.proxy.ql.ReikaRuntimeException;
 import io.xephon.proxy.ql.ast.DataType;
 import org.antlr.v4.runtime.Token;
 
@@ -28,20 +29,33 @@ public class SymbolTable {
         table = new HashMap<>();
     }
 
-    /**
-     * @param token
-     * @param type
-     * @throws DuplicateDeclarationException
-     * @TODO: need to have recovery, set the symbol to the latest type, i.e. addSafe
-     */
+    // NOTE: duplicate handling is in AST builder
     public void add(DataType type, Token token) throws DuplicateDeclarationException {
-        String id = token.getText();
         Symbol symbol = new Symbol(token, type);
+        add(symbol);
+    }
+
+    public void add(Symbol symbol) throws DuplicateDeclarationException {
+        String id = symbol.id;
         if (!table.containsKey(id)) {
             table.put(id, symbol);
         } else {
             throw new DuplicateDeclarationException(table.get(id), symbol);
         }
+    }
+
+    public void replace(DataType type, Token token) throws ReikaRuntimeException {
+        Symbol symbol = new Symbol(token, type);
+        replace(symbol);
+    }
+
+    public void replace(Symbol symbol) throws ReikaRuntimeException {
+        String id = symbol.id;
+        if (!table.containsKey(id)) {
+            throw new ReikaRuntimeException(
+                String.format("%s does not exist in symbol table, you shall not replace!", id));
+        }
+        table.put(id, symbol);
     }
 
     public Symbol resolve(Token token) throws UndefinedIdentifierException {
