@@ -213,6 +213,11 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     }
 
     @Override
+    public Node visitBool (ReikaParser.BoolContext ctx) {
+        return new BoolLiteral(Boolean.parseBoolean(ctx.BOOL().getText()));
+    }
+
+    @Override
     public Node visitVariable(ReikaParser.VariableContext ctx) {
         DataType type;
         try {
