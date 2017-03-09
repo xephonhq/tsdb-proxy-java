@@ -1,0 +1,21 @@
+// this file only have bool operation
+// TODO: () is not supported
+
+bool t = true;
+bool f = false;
+
+//test and
+bool c = t && t;
+bool d = t && f;
+//bool g = t && 1;
+print(c);
+print(d);
+//print(g);
+
+//test or
+bool a = f || f;
+bool b = t || f;
+print(a);
+print(b);
+
+
