@@ -357,6 +357,31 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
             return new AnyExp();
         }
     }
+
+    public Node visitAnd(ReikaParser.AndContext ctx) {
+        Exp lhs = (Exp) visit(ctx.expr(0));
+        Exp rhs = (Exp) visit(ctx.expr(1));
+        DataType lhsType = DataType.type(lhs);
+        DataType rhsType = DataType.type(rhs);
+        BinaryOperator op = BinaryOperator.AND;
+        try {
+            if (lhsType == DataType.INT && rhsType == DataType.INT) {
+                return new IntegerBinaryExp(op, lhs, rhs);
+            } else if (lhsType == DataType.BOOL && rhsType == DataType.BOOL){
+                return new BoolBinaryExp(op, lhs, rhs);
+            } else {
+                // TODO: actually symbol is used for variable and functions, we just need the line and column here
+                // maybe there should be another data type for tracking line number and column only
+                Symbol symbol = new Symbol(ctx.getStart());
+                throw new IncompatibleBinaryType(symbol, op, lhsType, rhsType);
+            }
+        } catch (IncompatibleBinaryType ex) {
+            recordError(ex);
+            // recovery, return ANY_TYPE
+            // TODO: need to change the type check in previous declare and assign
+            return new AnyExp();
+        }
+    }
     // end of binary operations
     // end of expressions
 }
