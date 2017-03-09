@@ -7,7 +7,7 @@ bool f = false;
 //test and
 bool c = t && t;
 bool d = t &&f ;
-bool g = t && 1;
+bool g = t && 1; // type error
 print(c);
 print(d);
 print(g);

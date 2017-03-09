@@ -51,6 +51,7 @@ public class ReikaAstBuilderTest {
     public void testBool() throws IOException {
         ReikaAstBuilder astBuilder = Util.astBuilderFromResource("bool_only.reika");
         astBuilder.printErrors();
+        // true && 1 result it type error
         assertTrue(astBuilder.hasError());
     }
 

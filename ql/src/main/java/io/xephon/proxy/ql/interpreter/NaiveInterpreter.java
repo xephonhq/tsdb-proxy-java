@@ -1,6 +1,5 @@
 package io.xephon.proxy.ql.interpreter;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.xephon.proxy.common.Loggable;
 import io.xephon.proxy.ql.ReikaRuntimeException;
 import io.xephon.proxy.ql.ast.*;
@@ -17,8 +16,8 @@ import java.util.Map;
 public class NaiveInterpreter implements Loggable {
     private Map<String, Integer> integerVariables;
     private Map<String, String> stringVariables;
-    private Map<String,Double> doubleVariables;
-    private Map<String,Boolean> boolVariables;
+    private Map<String, Double> doubleVariables;
+    private Map<String, Boolean> boolVariables;
 
     public NaiveInterpreter() {
         integerVariables = new HashMap<>();
