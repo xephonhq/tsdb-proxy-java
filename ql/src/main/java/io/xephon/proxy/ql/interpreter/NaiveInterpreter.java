@@ -1,5 +1,6 @@
 package io.xephon.proxy.ql.interpreter;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.xephon.proxy.common.Loggable;
 import io.xephon.proxy.ql.ReikaRuntimeException;
 import io.xephon.proxy.ql.ast.*;
@@ -17,11 +18,13 @@ public class NaiveInterpreter implements Loggable {
     private Map<String, Integer> integerVariables;
     private Map<String, String> stringVariables;
     private Map<String,Double> doubleVariables;
+    private Map<String,Boolean> boolVariables;
 
     public NaiveInterpreter() {
         integerVariables = new HashMap<>();
         stringVariables = new HashMap<>();
         doubleVariables = new HashMap<>();
+        boolVariables = new HashMap<>();
     }
 
     public void evalProgram(List<Stat> statements) {
@@ -55,6 +58,8 @@ public class NaiveInterpreter implements Loggable {
             stringVariables.put(id, evalExpression((StringExp) exp));
         } else if (exp instanceof DoubleExp) {
             doubleVariables.put(id, evalExpression((DoubleExp) exp));
+        } else if (exp instanceof BoolExp) {
+            //boolVariables.put(id, evalExpression(BoolExp) exp);
         }
     }
 
@@ -65,6 +70,8 @@ public class NaiveInterpreter implements Loggable {
             stringVariables.put(id, evalExpression((StringExp) exp));
         } else if (exp instanceof DoubleExp) {
             doubleVariables.put(id, evalExpression((DoubleExp) exp));
+        } else if (exp instanceof BoolExp) {
+            //boolVariables.put(id, evalExpression(BoolExp) exp);
         }
     }
 
@@ -87,6 +94,13 @@ public class NaiveInterpreter implements Loggable {
             throw new ReikaRuntimeException(String.format("string variable %s not found", id));
         }
         return stringVariables.get(id);
+    }
+
+    public Boolean resolveBool(String id) {
+        if (!boolVariables.containsKey(id)) {
+            throw new ReikaRuntimeException(String.format("boolean variable %s not found", id));
+        }
+        return boolVariables.get(id);
     }
 
     public String evalExpression(StringExp exp) {
@@ -189,4 +203,34 @@ public class NaiveInterpreter implements Loggable {
         // TODO: toString of the expression?
         throw new ReikaRuntimeException("Unknown type of double expression");
     }
+
+    public Boolean evalExpression(BoolExp exp) {
+        if (exp instanceof BoolLiteral) {
+            return ((BoolLiteral) exp).bool;
+        } else if (exp instanceof BoolBinaryExp) {
+            BoolBinaryExp bexp = (BoolBinaryExp) exp;
+            Boolean l, r;
+            if (bexp.l instanceof VariableExp) {
+                l = resolveBool(((VariableExp) bexp.l).name);
+            } else {
+                l = evalExpression((BoolExp) bexp.l);
+            }
+            if (bexp.r instanceof VariableExp) {
+                r = resolveBool(((VariableExp) bexp.r).name);
+            } else {
+                r = evalExpression((BoolExp) bexp.r);
+            }
+            switch (bexp.operator) {
+                case AND:
+                    return l && r;
+                case OR:
+                    return l || r;
+                default:
+                    throw new ReikaRuntimeException(String.format("Operator %s is not supported for boolean expression", bexp.operator));
+            }
+        }
+        // TODO: toString of the expression?
+        throw new ReikaRuntimeException("Unknown type of boolean expression");
+    }
+
 }
