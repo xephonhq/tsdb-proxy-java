@@ -365,9 +365,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         DataType rhsType = DataType.type(rhs);
         BinaryOperator op = BinaryOperator.AND;
         try {
-            if (lhsType == DataType.INT && rhsType == DataType.INT) {
-                return new IntegerBinaryExp(op, lhs, rhs);
-            } else if (lhsType == DataType.BOOL && rhsType == DataType.BOOL){
+             if (lhsType == DataType.BOOL && rhsType == DataType.BOOL){
                 return new BoolBinaryExp(op, lhs, rhs);
             } else {
                 // TODO: actually symbol is used for variable and functions, we just need the line and column here

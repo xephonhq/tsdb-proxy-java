@@ -48,6 +48,13 @@ public class ReikaAstBuilderTest {
     }
 
     @Test
+    public void testBool() throws IOException {
+        ReikaAstBuilder astBuilder = Util.astBuilderFromResource("bool_only.reika");
+        astBuilder.printErrors();
+        assertTrue(astBuilder.hasError());
+    }
+
+    @Test
     public void testSymbolError() throws IOException {
 // NOTE: uncomment the following code to see how java (IDEA) handle symbol error
 //        int a = 1;
