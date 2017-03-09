@@ -132,6 +132,18 @@ public interface ReikaListener extends ParseTreeListener {
 	 */
 	void exitVariable(ReikaParser.VariableContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Or}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterOr(ReikaParser.OrContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Or}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitOr(ReikaParser.OrContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code Mult}
 	 * labeled alternative in {@link ReikaParser#expr}.
 	 * @param ctx the parse tree
@@ -155,6 +167,18 @@ public interface ReikaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitBool(ReikaParser.BoolContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code And}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAnd(ReikaParser.AndContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code And}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAnd(ReikaParser.AndContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code String}
 	 * labeled alternative in {@link ReikaParser#expr}.

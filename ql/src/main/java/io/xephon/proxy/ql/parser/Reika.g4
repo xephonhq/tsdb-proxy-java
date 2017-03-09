@@ -31,6 +31,8 @@ expr : INT # Int
      | expr DIV expr # Div
      | expr ADD expr # Add
      | expr MINUS expr # Minus
+     | expr AND expr # And
+     | expr OR expr # Or
      ;
 
 exprList : expr (',' expr)* ;   // arg list
@@ -55,6 +57,8 @@ ADD : '+';
 MINUS: '-';
 MULT: '*';
 DIV: '/';
+AND : '&&';
+OR  : '||' ;
 
 WS  :   [ \t\n\r]+ -> channel(HIDDEN)
     ;

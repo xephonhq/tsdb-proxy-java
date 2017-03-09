@@ -84,6 +84,13 @@ public interface ReikaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVariable(ReikaParser.VariableContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Or}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOr(ReikaParser.OrContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code Mult}
 	 * labeled alternative in {@link ReikaParser#expr}.
 	 * @param ctx the parse tree
@@ -97,6 +104,13 @@ public interface ReikaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBool(ReikaParser.BoolContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code And}
+	 * labeled alternative in {@link ReikaParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnd(ReikaParser.AndContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code String}
 	 * labeled alternative in {@link ReikaParser#expr}.

@@ -148,6 +148,18 @@ public class ReikaBaseListener implements ReikaListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOr(ReikaParser.OrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOr(ReikaParser.OrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterMult(ReikaParser.MultContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -167,6 +179,18 @@ public class ReikaBaseListener implements ReikaListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBool(ReikaParser.BoolContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAnd(ReikaParser.AndContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAnd(ReikaParser.AndContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
