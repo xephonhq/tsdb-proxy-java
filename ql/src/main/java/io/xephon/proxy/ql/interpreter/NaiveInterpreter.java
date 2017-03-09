@@ -59,7 +59,7 @@ public class NaiveInterpreter implements Loggable {
         } else if (exp instanceof DoubleExp) {
             doubleVariables.put(id, evalExpression((DoubleExp) exp));
         } else if (exp instanceof BoolExp) {
-            //boolVariables.put(id, evalExpression(BoolExp) exp);
+            boolVariables.put(id, evalExpression((BoolExp) exp);
         }
     }
 
@@ -71,7 +71,7 @@ public class NaiveInterpreter implements Loggable {
         } else if (exp instanceof DoubleExp) {
             doubleVariables.put(id, evalExpression((DoubleExp) exp));
         } else if (exp instanceof BoolExp) {
-            //boolVariables.put(id, evalExpression(BoolExp) exp);
+            boolVariables.put(id, evalExpression((BoolExp) exp);
         }
     }
 
