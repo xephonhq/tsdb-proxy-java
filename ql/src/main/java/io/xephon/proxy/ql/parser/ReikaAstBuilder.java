@@ -386,7 +386,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         Exp rhs = (Exp) visit(ctx.expr(1));
         DataType lhsType = DataType.type(lhs);
         DataType rhsType = DataType.type(rhs);
-        BinaryOperator op = BinaryOperator.AND;
+        BinaryOperator op = BinaryOperator.OR;
         try {
             if (lhsType == DataType.BOOL && rhsType == DataType.BOOL){
                 return new BoolBinaryExp(op, lhs, rhs);
