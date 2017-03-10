@@ -41,19 +41,6 @@ Type
   - http://stackoverflow.com/questions/4728073/what-is-the-difference-between-an-expression-and-a-statement-in-python
 - [ ] may need another g4 grammar and parser for SQL
 
-## ANTLR
-
-- [ ] show syntax error and type error
-  - Guide `listeners/CheckSymbols.java`,
-
-````
-public static void error(Token t, String msg) {
-    System.err.printf("line %d:%d %s\n", t.getLine(), t.getCharPositionInLine(), msg);
-}
-CheckSymbols.error(ctx.ID().getSymbol(), "no such function: "+funcName);
-````
-
-- MUST put BOOL before ID, otherwise true will be treated as identifier
 
 ## Ref
 

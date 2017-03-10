@@ -1,0 +1,2 @@
+// test syntax error
+int a = 1
