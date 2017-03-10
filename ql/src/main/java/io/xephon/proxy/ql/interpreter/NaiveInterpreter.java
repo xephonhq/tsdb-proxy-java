@@ -51,7 +51,7 @@ public class NaiveInterpreter implements Loggable {
             setVar(assignStat.var.name, assignStat.exp);
         } else if (stat instanceof ExpStat) {
             logger().trace("eval expression statement");
-            // TODO: eval expression
+            lastOutput = evalExpression(((ExpStat) stat).exp);
         } else {
             throw new ReikaRuntimeException("Unknown type of statement");
         }
@@ -104,6 +104,21 @@ public class NaiveInterpreter implements Loggable {
         return boolVariables.get(id);
     }
 
+    public Object evalExpression(Exp exp) {
+        if (exp instanceof VariableExp) {
+            return evalExpression((VariableExp) exp);
+        } else if (exp instanceof IntegerExp) {
+            return evalExpression((IntegerExp) exp);
+        } else if (exp instanceof DoubleExp) {
+            return evalExpression((DoubleExp) exp);
+        } else if (exp instanceof StringExp) {
+            return evalExpression((StringExp) exp);
+        } else if (exp instanceof BoolExp) {
+            return evalExpression((BoolExp) exp);
+        }
+        throw new ReikaRuntimeException("Unknown type of expression");
+    }
+
     public Object evalExpression(VariableExp exp) {
         if (exp.type == DataType.INT) {
             return resolveInt(exp.name);
@@ -114,7 +129,7 @@ public class NaiveInterpreter implements Loggable {
         } else if (exp.type == DataType.BOOL) {
             return resolveBool(exp.name);
         }
-        return null;
+        throw new ReikaRuntimeException("Unknown type of variable expression");
     }
 
     public Integer evalExpression(IntegerExp exp) {

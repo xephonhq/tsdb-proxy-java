@@ -23,6 +23,16 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     private List<ReikaException> allExceptions;
     private List<ReikaException> symbolExceptions;
     private List<ReikaException> typeExceptions;
+    private boolean clearWhenProg;
+
+    public ReikaAstBuilder() {
+        clearWhenProg = true;
+    }
+
+    public ReikaAstBuilder(boolean clearWhenProg) {
+        this.clearWhenProg = clearWhenProg;
+        clearTables();
+    }
 
     public SymbolTable getSymbolTable() {
         return symbolTable;
@@ -42,6 +52,13 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
 
     private void clearTables() {
         symbolTable = new SymbolTable();
+        statements = new ArrayList<>();
+        allExceptions = new ArrayList<>();
+        symbolExceptions = new ArrayList<>();
+        typeExceptions = new ArrayList<>();
+    }
+
+    public void clearButSymbol() {
         statements = new ArrayList<>();
         allExceptions = new ArrayList<>();
         symbolExceptions = new ArrayList<>();
@@ -83,7 +100,10 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     // start of statements
     @Override
     public Node visitProg(ReikaParser.ProgContext ctx) {
-        clearTables();
+        if (clearWhenProg) {
+            logger().info("clear tables!");
+            clearTables();
+        }
 
         logger().trace("visit program");
         // visit every statement, prog is the root
@@ -213,7 +233,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     }
 
     @Override
-    public Node visitBool (ReikaParser.BoolContext ctx) {
+    public Node visitBool(ReikaParser.BoolContext ctx) {
         return new BoolLiteral(Boolean.parseBoolean(ctx.BOOL().getText()));
     }
 
@@ -365,7 +385,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         DataType rhsType = DataType.type(rhs);
         BinaryOperator op = BinaryOperator.AND;
         try {
-             if (lhsType == DataType.BOOL && rhsType == DataType.BOOL){
+            if (lhsType == DataType.BOOL && rhsType == DataType.BOOL) {
                 return new BoolBinaryExp(op, lhs, rhs);
             } else {
                 // TODO: actually symbol is used for variable and functions, we just need the line and column here
@@ -388,7 +408,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         DataType rhsType = DataType.type(rhs);
         BinaryOperator op = BinaryOperator.OR;
         try {
-            if (lhsType == DataType.BOOL && rhsType == DataType.BOOL){
+            if (lhsType == DataType.BOOL && rhsType == DataType.BOOL) {
                 return new BoolBinaryExp(op, lhs, rhs);
             } else {
                 // TODO: actually symbol is used for variable and functions, we just need the line and column here

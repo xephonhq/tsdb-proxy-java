@@ -34,6 +34,7 @@ public class Shell {
     private static final String version = "0.0.1";
     private static final Logger logger = LogManager.getLogger(Shell.class);
     private final NaiveInterpreter interpreter;
+    private ReikaAstBuilder astBuilder;
     private final String commandPrefix;
     private LineReader reader;
     private String prompt;
@@ -49,6 +50,9 @@ public class Shell {
             .build();
         logger.trace("create interpreter");
         interpreter = new NaiveInterpreter();
+        // need to have a global ast builder, otherwise the symbol table is lost
+        logger.trace("create ast builder");
+        astBuilder = new ReikaAstBuilder(false);
     }
 
     public String readLine() {
@@ -87,7 +91,7 @@ public class Shell {
             return;
         }
 
-        ReikaAstBuilder astBuilder = new ReikaAstBuilder();
+        astBuilder.clearButSymbol();
         astBuilder.visit(tree);
         // FIXME: need to use updated symbol table !!!
         // i.e. astBuilder should share symbol table
@@ -100,7 +104,7 @@ public class Shell {
         try {
             interpreter.evalProgram(astBuilder.getStatements());
             System.out.println(interpreter.getLastOutput());
-        }catch (ReikaException ex) {
+        } catch (ReikaException ex) {
             logger.error(ex);
         }
 
