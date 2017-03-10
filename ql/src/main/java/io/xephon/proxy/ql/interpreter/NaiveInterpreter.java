@@ -38,11 +38,11 @@ public class NaiveInterpreter implements Loggable {
         if (stat instanceof VarDeclareStat) {
             logger().trace("eval declare statement");
             VarDeclareStat declareStat = (VarDeclareStat) stat;
-            declareVar(declareStat.var.name, declareStat.exp);
+            setVar(declareStat.var.name, declareStat.exp);
         } else if (stat instanceof VarAssignStat) {
             logger().trace("eval assign statement");
             VarAssignStat assignStat = (VarAssignStat) stat;
-            assignVar(assignStat.var.name, assignStat.exp);
+            setVar(assignStat.var.name, assignStat.exp);
         } else if (stat instanceof ExpStat) {
             logger().trace("eval expression statement");
         } else {
@@ -50,19 +50,10 @@ public class NaiveInterpreter implements Loggable {
         }
     }
 
-    public void declareVar(String id, Exp exp) {
-        if (exp instanceof IntegerExp) {
-            integerVariables.put(id, evalExpression((IntegerExp) exp));
-        } else if (exp instanceof StringExp) {
-            stringVariables.put(id, evalExpression((StringExp) exp));
-        } else if (exp instanceof DoubleExp) {
-            doubleVariables.put(id, evalExpression((DoubleExp) exp));
-        } else if (exp instanceof BoolExp) {
-            boolVariables.put(id, evalExpression((BoolExp) exp));
-        }
-    }
-
-    public void assignVar(String id, Exp exp) {
+    // setVar is assignVar and declareVar, they are same code pointed out by IDEA
+    // since the checker already checked symbol problems,
+    // the interpreter treat assign and declare with no difference
+    public void setVar(String id, Exp exp) {
         if (exp instanceof IntegerExp) {
             integerVariables.put(id, evalExpression((IntegerExp) exp));
         } else if (exp instanceof StringExp) {
