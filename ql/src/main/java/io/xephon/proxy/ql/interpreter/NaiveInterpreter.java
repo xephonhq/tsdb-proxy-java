@@ -7,6 +7,7 @@ import io.xephon.proxy.ql.ast.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by at15 on 3/5/17.
@@ -18,6 +19,7 @@ public class NaiveInterpreter implements Loggable {
     private Map<String, String> stringVariables;
     private Map<String, Double> doubleVariables;
     private Map<String, Boolean> boolVariables;
+    private Object lastOutput;
 
     public NaiveInterpreter() {
         integerVariables = new HashMap<>();
@@ -26,12 +28,16 @@ public class NaiveInterpreter implements Loggable {
         boolVariables = new HashMap<>();
     }
 
+    public Object getLastOutput() {
+        return lastOutput;
+    }
+
     public void evalProgram(List<Stat> statements) {
-        logger().info("start eval a program");
+        logger().debug("start eval a program");
         for (Stat stat : statements) {
             evalStatement(stat);
         }
-        logger().info("finish eval a program");
+        logger().debug("finish eval a program");
     }
 
     public void evalStatement(Stat stat) {
@@ -45,6 +51,7 @@ public class NaiveInterpreter implements Loggable {
             setVar(assignStat.var.name, assignStat.exp);
         } else if (stat instanceof ExpStat) {
             logger().trace("eval expression statement");
+            // TODO: eval expression
         } else {
             throw new ReikaRuntimeException("Unknown type of statement");
         }
@@ -56,12 +63,16 @@ public class NaiveInterpreter implements Loggable {
     public void setVar(String id, Exp exp) {
         if (exp instanceof IntegerExp) {
             integerVariables.put(id, evalExpression((IntegerExp) exp));
-        } else if (exp instanceof StringExp) {
-            stringVariables.put(id, evalExpression((StringExp) exp));
+            lastOutput = integerVariables.get(id);
         } else if (exp instanceof DoubleExp) {
             doubleVariables.put(id, evalExpression((DoubleExp) exp));
+            lastOutput = doubleVariables.get(id);
+        } else if (exp instanceof StringExp) {
+            stringVariables.put(id, evalExpression((StringExp) exp));
+            lastOutput = stringVariables.get(id);
         } else if (exp instanceof BoolExp) {
             boolVariables.put(id, evalExpression((BoolExp) exp));
+            lastOutput = boolVariables.get(id);
         }
     }
 
@@ -93,35 +104,15 @@ public class NaiveInterpreter implements Loggable {
         return boolVariables.get(id);
     }
 
-    public String evalExpression(StringExp exp) {
-        if (exp instanceof StringLiteral) {
-            return ((StringLiteral) exp).value;
-        } else if (exp instanceof StringBinaryExp) {
-            // sbexp stands for string binary expression -.-
-            StringBinaryExp sbexp = (StringBinaryExp) exp;
-            if (sbexp.operator != BinaryOperator.ADD) {
-                throw new ReikaRuntimeException(String.format("string only support add but found %s", sbexp.operator));
-            }
-            String l, r;
-            if (sbexp.l instanceof VariableExp) {
-                l = resolveString(((VariableExp) sbexp.l).name);
-            } else {
-                l = evalExpression((StringExp) sbexp.l);
-            }
-            if (sbexp.r instanceof VariableExp) {
-                r = resolveString(((VariableExp) sbexp.r).name);
-            } else {
-                r = evalExpression((StringExp) sbexp.r);
-            }
-            // we only have add
-            return l + r;
-        }
-        throw new ReikaRuntimeException("Unknown type of string expression");
-    }
-
     public Object evalExpression(VariableExp exp) {
         if (exp.type == DataType.INT) {
             return resolveInt(exp.name);
+        } else if (exp.type == DataType.STRING) {
+            return resolveString(exp.name);
+        } else if (exp.type == DataType.DOUBLE) {
+            return resolveDouble(exp.name);
+        } else if (exp.type == DataType.BOOL) {
+            return resolveBool(exp.name);
         }
         return null;
     }
@@ -192,6 +183,32 @@ public class NaiveInterpreter implements Loggable {
         }
         // TODO: toString of the expression?
         throw new ReikaRuntimeException("Unknown type of double expression");
+    }
+
+    public String evalExpression(StringExp exp) {
+        if (exp instanceof StringLiteral) {
+            return ((StringLiteral) exp).value;
+        } else if (exp instanceof StringBinaryExp) {
+            // sbexp stands for string binary expression -.-
+            StringBinaryExp sbexp = (StringBinaryExp) exp;
+            if (sbexp.operator != BinaryOperator.ADD) {
+                throw new ReikaRuntimeException(String.format("string only support add but found %s", sbexp.operator));
+            }
+            String l, r;
+            if (sbexp.l instanceof VariableExp) {
+                l = resolveString(((VariableExp) sbexp.l).name);
+            } else {
+                l = evalExpression((StringExp) sbexp.l);
+            }
+            if (sbexp.r instanceof VariableExp) {
+                r = resolveString(((VariableExp) sbexp.r).name);
+            } else {
+                r = evalExpression((StringExp) sbexp.r);
+            }
+            // we only have add
+            return l + r;
+        }
+        throw new ReikaRuntimeException("Unknown type of string expression");
     }
 
     public Boolean evalExpression(BoolExp exp) {

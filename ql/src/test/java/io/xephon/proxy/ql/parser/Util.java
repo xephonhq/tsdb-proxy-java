@@ -1,6 +1,5 @@
 package io.xephon.proxy.ql.parser;
 
-import io.xephon.proxy.ql.checker.SymbolTable;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;

@@ -7,6 +7,10 @@ popd > /dev/null
 ORIGINAL_WD=${PWD}
 cd ${SCRIPTPATH}
 
-java -cp ./build/libs/ql-0.0.1-SNAPSHOT-all.jar io.xephon.proxy.ql.Shell
+if [ -f "./build/libs/ql-0.0.1-SNAPSHOT-all.jar" ]; then
+    java -cp ./build/libs/ql-0.0.1-SNAPSHOT-all.jar io.xephon.proxy.ql.Shell
+else
+    echo "Please run 'gradle shadowJar' to build the executable jar"
+fi
 
 cd ${ORIGINAL_WD}

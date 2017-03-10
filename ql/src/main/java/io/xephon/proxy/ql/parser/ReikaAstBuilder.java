@@ -91,7 +91,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
         for (ReikaParser.StatContext stat : statContexts) {
             statements.add((Stat) visit(stat));
         }
-        logger().info("total statements in program: " + statements.size());
+        logger().debug("total statements in program: " + statements.size());
         // FIXME: returning null is never a good idea
         return null;
     }

@@ -37,7 +37,7 @@ public class TrackerErrorListener extends BaseErrorListener {
     }
 
     public void printErrors() {
-        System.out.printf("total %d syntax errors\n", errors.size());
+        System.out.printf("%d syntax errors\n", errors.size());
         for (SyntaxError error: errors) {
             System.out.println(error);
         }
