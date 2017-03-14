@@ -115,8 +115,11 @@ public class NaiveInterpreter implements Loggable {
             return evalExpression((StringExp) exp);
         } else if (exp instanceof BoolExp) {
             return evalExpression((BoolExp) exp);
+        } else if (exp instanceof CallExp) {
+            // TODO: implement evaluation of call exp
+            return null;
         }
-        throw new ReikaRuntimeException("Unknown type of expression");
+        throw new ReikaRuntimeException(String.format("Unknown type of expression %s", exp.getClass().getSimpleName()));
     }
 
     public Object evalExpression(VariableExp exp) {

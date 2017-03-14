@@ -81,6 +81,21 @@ From newest to oldest
   - [ ] functions https://prometheus.io/docs/querying/functions/
 - A modern subset of the range query language https://github.com/square/grange
 - Graphite http://graphite.readthedocs.io/en/latest/functions.html#usage
+- Juttle dataflow programming language 
+  - https://github.com/juttle/juttle
+  - https://github.com/juttle/juttle-engine
+
+````
+read influx  -from :1 hour ago: -to :end: name = 'cpu' 
+| reduce -over :5m: -every :30s: avg('value') by host
+| view timechart
+````
+
+````
+read splunk -last :day: status_code=500
+| reduce -every :1m: count()
+| view table
+````
 
 ### Python
 
