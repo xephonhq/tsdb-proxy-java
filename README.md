@@ -1,7 +1,8 @@
 # TSDB Proxy Java
 
-A Time Series Database Proxy in Java, contains drivers and multiple server protocol implementations.
-This project is too young too simple, sometimes naive, use it at your own risk.
+[![Build Status](https://travis-ci.org/xephonhq/tsdb-proxy-java.svg?branch=master)](https://travis-ci.org/xephonhq/tsdb-proxy-java)
+
+A Time Series Database Proxy in Java with a powerful DSL Reika
 
 ## Related Projects
 
