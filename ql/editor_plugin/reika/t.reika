@@ -3,11 +3,18 @@
 1.2
 double
 true
+date t1 = today();
+string s = "123";
 // // //asd "s" false ""
+/*
 true * false
 int a = 123;
 double b = 123;
 string c = 13;
 date d = 123;
+*/
 1 - 2
 3 - 5
+int c = 123;
+int inc = 123;
+print(asd)

@@ -26,9 +26,19 @@
 			"match": "\\b(int|double|bool|string|date)\\b"
 		},
 		{
+			"name": "entity.name.type.reika",
+			"match": "\\b([a-zA-Z]([a-zA-Z]|[0-9])*)\\b",
+			"comment": "FIXME: the color is strange, and we have split function with variable and parameter list"
+		},
+		{
 			"name": "comment.line.reika",
-			"match": "//(.*?)",
-			"comment": "FIXME: this only green the // but not all the content after it"
+			"begin": "//",
+			"end": "$"
+		},
+		{
+			"name": "comment.block.reika",
+			"begin": "/\\*",
+			"end": "\\*/"
 		}
 	],
 	"repository": {
