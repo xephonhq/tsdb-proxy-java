@@ -7,14 +7,38 @@
 		},
 		{
 			"include": "#strings"
+		},
+		{
+			"name": "keyword.operator.reika",
+			"match": "\\b(-)\\b",
+			"comment": "FIXME: this does not work"
+		},
+		{
+			"name": "constant.language.reika",
+			"match": "\\b(true|false)\\b"
+		},
+		{
+			"name": "constant.numeric.reika",
+			"match": "\\b([0-9]+)\\b"
+		},
+		{
+			"name": "storage.type.reika",
+			"match": "\\b(int|double|bool|string|date)\\b"
+		},
+		{
+			"name": "comment.line.reika",
+			"match": "//(.*?)",
+			"comment": "FIXME: this only green the // but not all the content after it"
 		}
 	],
 	"repository": {
 		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.reika",
-				"match": "\\b(if|while|for|return)\\b"
-			}]
+			"patterns": [
+				{
+					"name": "keyword.control.reika",
+					"match": "\\b(if|while|for|return)\\b"
+				}
+			]
 		},
 		"strings": {
 			"name": "string.quoted.double.reika",
