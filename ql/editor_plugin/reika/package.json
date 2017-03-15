@@ -1,0 +1,26 @@
+{
+    "name": "reika",
+    "displayName": "reika",
+    "description": "Language support for Reika, a DSL for time series database",
+    "version": "0.0.1",
+    "publisher": "at15",
+    "engines": {
+        "vscode": "^1.10.0"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "reika",
+            "aliases": ["Reika", "reika"],
+            "extensions": [".reika"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "reika",
+            "scopeName": "source.reika",
+            "path": "./syntaxes/reika.tmLanguage.json"
+        }]
+    }
+}
