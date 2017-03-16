@@ -5,6 +5,8 @@ a general purpose static typing language and a query language for
 database related operations. It depends on tsdb-proxy when database
 operation is involved.
 
+![reika](reika-shore.png)
+
 ## Usage
 
 Build from source
