@@ -1,20 +1,32 @@
-// this a comment
-1 + 2
-1.2
-double
-true
-date t1 = today();
-string s = "123";
-// // //asd "s" false ""
-/*
-true * false
-int a = 123;
-double b = 123;
-string c = 13;
-date d = 123;
+/**
+*　　　　　　　　┏┓　　　┏┓+ +
+*　　　　　　　┏┛┻━━━┛┻┓ + +
+*　　　　　　　┃　　　　　　　┃
+*　　　　　　　┃　　　━　　　┃ ++ + + +
+*　　　　　　 ████━████ ┃+
+*　　　　　　　┃　　　　　　　┃ +
+*　　　　　　　┃　　　┻　　　┃
+*　　　　　　　┃　　　　　　　┃ + +
+*　　　　　　　┗━┓　　　┏━┛
+*　　　　　　　　　┃　　　┃
+*　　　　　　　　　┃　　　┃ + + + +
+*　　　　　　　　　┃　　　┃　　　　Code is far away from bug with the animal protecting
+*　　　　　　　　　┃　　　┃ + 　　　　神兽保佑,代码无bug
+*　　　　　　　　　┃　　　┃
+*　　　　　　　　　┃　　　┃　　+
+*　　　　　　　　　┃　 　　┗━━━┓ + +
+*　　　　　　　　　┃ 　　　　　　　┣┓
+*　　　　　　　　　┃ 　　　　　　　┏┛
+*　　　　　　　　　┗┓┓┏━┳┓┏┛ + + + +
+*　　　　　　　　　　┃┫┫　┃┫┫
+*　　　　　　　　　　┗┻┛　┗┻┛+ + + +
+* https://gist.github.com/edokeh/7580064
 */
-1 - 2
-3 - 5
-int c = 123;
-int inc = 123;
-print(asd)
+int a = 1 + 2;
+double b = 3.3;
+bool FALSE = true; // QvQ
+bool TRUE = false; // QAQ
+string s = "foo";
+string b = "bar";
+string sb = s + b;
+print(sb);

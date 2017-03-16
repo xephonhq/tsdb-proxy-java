@@ -67,8 +67,7 @@ public class Shell {
         String cmd = rawCmd.substring(1).trim();
         if (cmd.startsWith("help")) {
             // TODO: real help
-            println("let me help you!");
-            println("TODO: show available commands");
+            println("Use Google and StackOverflow, luke");
         } else if (cmd.equals("exit")) {
             throw new EndOfFileException();
         }
@@ -103,7 +102,7 @@ public class Shell {
         // now let's do the evaluation
         try {
             interpreter.evalProgram(astBuilder.getStatements());
-            System.out.println(interpreter.getLastOutput());
+            System.out.printf("\u001b[32m%s\u001b[0m\n", interpreter.getLastOutput());
         } catch (ReikaException ex) {
             logger.error(ex);
         }
@@ -121,6 +120,19 @@ public class Shell {
     public static void main(String[] args) throws Exception {
         logger.trace("create shell object");
         Shell shell = new Shell();
+        String banner = " ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄    ▄  ▄▄▄▄▄▄▄▄▄▄▄ \n" +
+            "▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌▐░░░░░░░░░░░▌\n" +
+            "▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀  ▀▀▀▀█░█▀▀▀▀ ▐░▌ ▐░▌ ▐░█▀▀▀▀▀▀▀█░▌\n" +
+            "▐░▌       ▐░▌▐░▌               ▐░▌     ▐░▌▐░▌  ▐░▌       ▐░▌\n" +
+            "▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄      ▐░▌     ▐░▌░▌   ▐░█▄▄▄▄▄▄▄█░▌\n" +
+            "▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌     ▐░▌     ▐░░▌    ▐░░░░░░░░░░░▌\n" +
+            "▐░█▀▀▀▀█░█▀▀ ▐░█▀▀▀▀▀▀▀▀▀      ▐░▌     ▐░▌░▌   ▐░█▀▀▀▀▀▀▀█░▌\n" +
+            "▐░▌     ▐░▌  ▐░▌               ▐░▌     ▐░▌▐░▌  ▐░▌       ▐░▌\n" +
+            "▐░▌      ▐░▌ ▐░█▄▄▄▄▄▄▄▄▄  ▄▄▄▄█░█▄▄▄▄ ▐░▌ ▐░▌ ▐░▌       ▐░▌\n" +
+            "▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌  ▐░▌▐░▌       ▐░▌\n" +
+            " ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀    ▀  ▀         ▀ \n" +
+            "                                                            \n";
+        System.out.print(banner);
         System.out.printf("Reika shell, version %s: https://github.com/xephonhq/tsdb-proxy-java \n", version);
         while (true) {
             String line = null;

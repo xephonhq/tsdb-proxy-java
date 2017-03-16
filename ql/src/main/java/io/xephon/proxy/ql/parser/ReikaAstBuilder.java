@@ -91,7 +91,7 @@ public class ReikaAstBuilder extends ReikaBaseVisitor<Node> implements Loggable 
     }
 
     public void printErrors() {
-        System.out.println(errorAbstract());
+        System.out.printf("\u001b[91mERROR\u001b[0m: %d symbol errors, %d type errors\n", symbolExceptions.size(), typeExceptions.size());
         for (ReikaException ex : allExceptions) {
             System.out.println(ex.getMessage());
         }

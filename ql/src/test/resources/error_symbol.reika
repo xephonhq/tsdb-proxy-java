@@ -1,6 +1,6 @@
-// symbol error
+// Test Symbol error
 int a = 1;
 int a = 2; // duplicate declaration
 b = 3; // undefined identifier
 int c = d + 1; // undefined identifier
-int e = b + c; // TODO: if we have recover, then only c should be reported
+int e = b + c; // NOTE: we have recovery, thus this line is not reported
