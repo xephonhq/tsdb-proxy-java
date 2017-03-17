@@ -4,6 +4,8 @@
 
 A Time Series Database Proxy in Java with a powerful DSL Reika
 
+- [DSL](ql) Reika 
+
 ## Related Projects
 
 - Golang implementation of [tsdb-proxy](https://github.com/xephonhq/tsdb-proxy)
