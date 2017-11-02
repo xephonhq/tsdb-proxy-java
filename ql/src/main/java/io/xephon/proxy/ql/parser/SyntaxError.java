@@ -16,6 +16,6 @@ public class SyntaxError {
 
     @Override
     public String toString() {
-        return String.format("line %d:%d %s", line,charPos, msg);
+        return String.format("line %d:%d %s", line, charPos, msg);
     }
 }

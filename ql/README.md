@@ -1,5 +1,7 @@
 # Reika
 
+**Deprecated**, new version of Reika is now in [at15/reika](https://github.com/at15/reika)
+
 Reika is a DSL for time series database, it contains two part,
 a general purpose static typing language and a query language for
 database related operations. It depends on tsdb-proxy when database
