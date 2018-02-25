@@ -2,11 +2,11 @@
 
 [![Build Status](https://travis-ci.org/xephonhq/tsdb-proxy-java.svg?branch=master)](https://travis-ci.org/xephonhq/tsdb-proxy-java)
 
-NOTE: all the development is in [Xephon-K](https://github.com/xephonhq/xephon-k) now.
+**No longer maintained**, proxy code can be found in [libtsdb](https://github.com/libtsdb), the query language Reika can be found in [at15/reika](https://github.com/at15/reika)
 
 A Time Series Database Proxy in Java with a powerful DSL called Reika
 
-- [DSL](ql) Reika 
+- [DSL](ql) Reika
 
 ## Related Projects
 
@@ -19,5 +19,5 @@ MIT
 
 ## Authors
 
-- [Pinglei Guo](https://at15.github.io) [@at15](https://github.com/at15), [linkedin](https://www.linkedin.com/in/at1510086), [twitter](https://twitter.com/at1510086)
-- [Chujiao Hou](https://github.com/ChujiaoHou) [@ChujiaoHou](https://github.com/ChujiaoHou), [linkedin](https://www.linkedin.com/in/chujiao-hou-5752b6133)
+- [Pinglei Guo](https://at15.github.io) [@at15](https://github.com/at15), [twitter](https://twitter.com/at1510086)
+- [Chujiao Hou](https://github.com/ChujiaoHou) [@ChujiaoHou](https://github.com/ChujiaoHou)
